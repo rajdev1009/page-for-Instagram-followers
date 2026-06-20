@@ -31,7 +31,7 @@
         },
         keyframes: {
           fadeInUp: {
-            '0%':   { opacity: 0, transform: 'translateY(8px)' },
+            '0%':   { opacity: 0, transform: 'translateY(15px)' },
             '100%': { opacity: 1, transform: 'translateY(0)' },
           },
           ringSpin: {
@@ -42,11 +42,20 @@
             '0%':   { opacity: 0, transform: 'scale(0.96)' },
             '100%': { opacity: 1, transform: 'scale(1)' },
           },
+          pulseGlow: {
+            '0%': { box-shadow: '0 0 0 0 rgba(0, 149, 246, 0.4)' },
+            '70%': { box-shadow: '0 0 0 15px rgba(0, 149, 246, 0)' },
+            '100%': { box-shadow: '0 0 0 0 rgba(0, 149, 246, 0)' }
+          },
+          shimmer: {
+            '100%': { transform: 'translateX(100%)' }
+          }
         },
         animation: {
-          fadeInUp: 'fadeInUp 0.45s ease forwards',
-          ringSpin: 'ringSpin 7s linear infinite',
+          fadeInUp: 'fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+          ringSpin: 'ringSpin 9s linear infinite',
           popIn: 'popIn 0.5s ease forwards',
+          pulseGlow: 'pulseGlow 1.5s ease-out 1',
         },
       },
     },
@@ -61,15 +70,24 @@
   body { font-family: 'Inter', sans-serif; }
   h1, h2, .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
 
-  /* Avatar ring — deliberately not Instagram's signature gradient, a quieter blue→navy sweep */
+  /* Avatar ring sweep */
   .avatar-ring {
     background: conic-gradient(from 180deg, #0095F6, #1B1F3B, #0095F6);
-    animation: ringSpin 9s linear infinite;
+  }
+
+  /* Shimmer effect for Continue button */
+  .btn-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 2s infinite;
   }
 
   /* Continue button states */
   #continueBtn {
-    transition: background-color .35s ease, color .35s ease, box-shadow .35s ease, transform .15s ease, opacity .35s ease;
+    transition: all .35s ease;
   }
   #continueBtn.is-disabled {
     background-color: #ECECEC;
@@ -85,22 +103,28 @@
   }
   #continueBtn.is-active:active { transform: scale(0.98); }
 
-  #helperText { transition: opacity .25s ease; }
-
-  /* Reveal section expand */
+  /* Project Reveal section expand */
   #projectsSection {
     max-height: 0;
     opacity: 0;
     overflow: hidden;
-    transition: max-height .7s cubic-bezier(.22,.61,.36,1), opacity .6s ease, margin-top .6s ease;
+    transition: max-height .8s cubic-bezier(.22,.61,.36,1), opacity .6s ease, margin-top .6s ease;
   }
   #projectsSection.is-open {
     max-height: 2000px;
     opacity: 1;
   }
 
-  .project-card { transition: transform .25s ease, box-shadow .25s ease; }
-  .project-card:hover { transform: translateY(-3px); box-shadow: 0 16px 32px -16px rgba(18,18,18,0.18); }
+  /* Staggered project cards */
+  .project-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .project-item.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
   /* visible keyboard focus */
   button:focus-visible, a:focus-visible {
@@ -119,15 +143,14 @@
 
   <main class="relative z-10 mx-auto w-full max-w-[440px] px-5 py-10 sm:py-16">
 
-    <!-- Quick Links: direct profile shortcuts (no verification needed here) -->
-    <div class="mb-7">
+    <!-- Quick Links (Page Load Entrance: Staggered) -->
+    <div class="mb-7 opacity-0 animate-fadeInUp" style="animation-delay: 0.1s;">
       <p class="text-center text-[11px] text-muted leading-relaxed mb-3 max-w-[320px] mx-auto">
         Tap an icon to open that profile directly — feel free to look around or follow there too.
         To unlock the projects below, complete the steps inside the card.
       </p>
       <div class="flex items-center justify-center gap-2 flex-wrap">
-        <a href="https://www.instagram.com/itz_dminem_official43?igsh=MTZpNGMwOGwwMWl5dA==" target="_blank" rel="noopener noreferrer"
-           class="flex items-center gap-1.5 bg-white border border-line rounded-full pl-2 pr-3 py-1.5 shadow-sm hover:shadow-md transition-shadow">
+        <a href="https://www.instagram.com/itz_dminem_official43?igsh=MTZpNGMwOGwwMWl5dA==" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 bg-white border border-line rounded-full pl-2 pr-3 py-1.5 shadow-sm hover:shadow-md transition-shadow">
           <span class="w-6 h-6 rounded-full flex items-center justify-center" style="background:conic-gradient(from 180deg,#0095F6,#1B1F3B,#0095F6)">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="6" width="18" height="14" rx="3"></rect>
@@ -138,8 +161,7 @@
           <span class="text-xs font-medium text-ink">@itz_dminem_official43</span>
         </a>
 
-        <a href="https://www.instagram.com/_raj_dev_1?igsh=cWh2cXBnNzRhamlr" target="_blank" rel="noopener noreferrer"
-           class="flex items-center gap-1.5 bg-white border border-line rounded-full pl-2 pr-3 py-1.5 shadow-sm hover:shadow-md transition-shadow">
+        <a href="https://www.instagram.com/_raj_dev_1?igsh=cWh2cXBnNzRhamlr" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 bg-white border border-line rounded-full pl-2 pr-3 py-1.5 shadow-sm hover:shadow-md transition-shadow">
           <span class="w-6 h-6 rounded-full flex items-center justify-center" style="background:conic-gradient(from 180deg,#0095F6,#1B1F3B,#0095F6)">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="6" width="18" height="14" rx="3"></rect>
@@ -149,26 +171,18 @@
           </span>
           <span class="text-xs font-medium text-ink">@_raj_dev_1</span>
         </a>
-
-        <a href="https://t.me/raj_dev_01" target="_blank" rel="noopener noreferrer"
-           class="flex items-center gap-1.5 bg-white border border-line rounded-full pl-2 pr-3 py-1.5 shadow-sm hover:shadow-md transition-shadow">
-          <span class="w-6 h-6 rounded-full bg-[#229ED9] flex items-center justify-center">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 2 11 13"></path>
-              <path d="M22 2 15 22l-4-9-9-4 20-7Z"></path>
-            </svg>
-          </span>
-          <span class="text-xs font-medium text-ink">@raj_dev_01</span>
-        </a>
       </div>
     </div>
 
-    <!-- Profile Card -->
-    <section class="bg-white rounded-[28px] shadow-[0_20px_50px_-20px_rgba(18,18,18,0.15)] border border-line px-6 py-9 sm:px-8 sm:py-10">
+    <!-- Profile Card (Hover Lift & Shadow) -->
+    <section class="relative bg-white rounded-[28px] shadow-[0_20px_40px_-15px_rgba(18,18,18,0.08)] border border-line px-6 py-9 sm:px-8 sm:py-10 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(18,18,18,0.15)] overflow-hidden">
+      
+      <!-- Step Progress Bar -->
+      <div class="absolute top-0 left-0 h-1.5 bg-[#25D366] transition-all duration-700 ease-out" id="progressBar" style="width: 0%;"></div>
 
       <!-- Avatar -->
-      <div class="flex justify-center mb-5">
-        <div class="avatar-ring w-[104px] h-[104px] rounded-full p-[3px]">
+      <div class="flex justify-center mb-5 opacity-0 animate-fadeInUp" style="animation-delay: 0.2s;">
+        <div class="avatar-ring animate-ringSpin w-[104px] h-[104px] rounded-full p-[3px] animate-pulseGlow">
           <div class="w-full h-full rounded-full bg-white p-[3px]">
             <img src="https://iili.io/CzE7YCv.webp" alt="Raj profile photo" class="w-full h-full rounded-full object-cover" />
           </div>
@@ -176,7 +190,7 @@
       </div>
 
       <!-- Identity -->
-      <div class="text-center">
+      <div class="text-center opacity-0 animate-fadeInUp" style="animation-delay: 0.3s;">
         <h1 class="font-display text-xl font-extrabold tracking-tight">Raj</h1>
         <p class="text-sm text-muted mt-0.5">@raj.codes</p>
 
@@ -192,76 +206,52 @@
         </div>
       </div>
 
-      <!-- Actions -->
-      <div class="mt-8">
+      <!-- Actions (Now only 2 steps) -->
+      <div class="mt-8 opacity-0 animate-fadeInUp" style="animation-delay: 0.4s;">
 
         <!-- Step 1 -->
-        <button id="followBtn1"
-          class="w-full flex items-center justify-center gap-2 rounded-full bg-accent hover:bg-accentDeep text-white font-display font-semibold text-[15px] py-4 shadow-lg shadow-accent/30 transition-colors active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <button id="followBtn1" class="w-full flex items-center justify-center gap-2 rounded-full bg-accent hover:bg-accentDeep text-white font-display font-semibold text-[15px] py-4 shadow-lg shadow-accent/30 transition-all duration-300 active:scale-[0.98] disabled:opacity-90 disabled:cursor-not-allowed">
+          <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="6" width="18" height="14" rx="3"></rect>
             <path d="M8 6l1.6-2.4A1.5 1.5 0 0 1 10.85 3h2.3a1.5 1.5 0 0 1 1.25.6L16 6"></path>
             <circle cx="12" cy="13" r="3.5"></circle>
           </svg>
-          <span>Follow @itz_dminem_official43</span>
+          <span class="btn-text">Follow @itz_dminem_official43</span>
         </button>
-        <p class="text-[11px] text-muted text-center mt-1.5">Step 1 of 4</p>
+        <p class="text-[11px] text-muted text-center mt-1.5">Step 1 of 2</p>
 
-        <!-- Countdown between steps -->
-        <p id="countdownWrap" class="hidden text-xs text-muted text-center mt-3">
-          Second account unlocks in <span id="countdownNum">30</span>s
-        </p>
+        <!-- Circular Countdown -->
+        <div id="countdownWrap" class="hidden flex flex-col items-center mt-4 mb-2 animate-popIn">
+          <div class="relative w-12 h-12">
+            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="45" fill="none" stroke="#EFEFEF" stroke-width="6"></circle>
+              <circle id="countdownRing" cx="50" cy="50" r="45" fill="none" stroke="#0095F6" stroke-width="6" stroke-dasharray="283" stroke-dashoffset="0" class="transition-all duration-1000 ease-linear"></circle>
+            </svg>
+            <div class="absolute inset-0 flex items-center justify-center text-sm font-bold text-ink" id="countdownNum">30</div>
+          </div>
+          <p class="text-[11px] text-muted text-center mt-2">Next account unlocks soon</p>
+        </div>
 
         <!-- Step 2 -->
         <div id="followStep2" class="hidden mt-3">
-          <button id="followBtn2"
-            class="w-full flex items-center justify-center gap-2 rounded-full bg-accent hover:bg-accentDeep text-white font-display font-semibold text-[15px] py-4 shadow-lg shadow-accent/30 transition-colors active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <button id="followBtn2" class="w-full flex items-center justify-center gap-2 rounded-full bg-accent hover:bg-accentDeep text-white font-display font-semibold text-[15px] py-4 shadow-lg shadow-accent/30 transition-all duration-300 active:scale-[0.98] disabled:opacity-90 disabled:cursor-not-allowed">
+            <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="6" width="18" height="14" rx="3"></rect>
               <path d="M8 6l1.6-2.4A1.5 1.5 0 0 1 10.85 3h2.3a1.5 1.5 0 0 1 1.25.6L16 6"></path>
               <circle cx="12" cy="13" r="3.5"></circle>
             </svg>
-            <span>Follow @_raj_dev_1</span>
+            <span class="btn-text">Follow @_raj_dev_1</span>
           </button>
-          <p class="text-[11px] text-muted text-center mt-1.5">Step 2 of 4</p>
+          <p class="text-[11px] text-muted text-center mt-1.5">Step 2 of 2</p>
         </div>
 
-        <!-- Step 3 & 4 -->
-        <div id="followStep34" class="hidden mt-3 space-y-3">
-          <div>
-            <button id="followBtn3"
-              class="w-full flex items-center justify-center gap-2 rounded-full bg-[#229ED9] hover:bg-[#1c87bd] text-white font-display font-semibold text-[15px] py-4 shadow-lg shadow-[#229ED9]/30 transition-colors active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 2 11 13"></path>
-                <path d="M22 2 15 22l-4-9-9-4 20-7Z"></path>
-              </svg>
-              <span>Join Telegram Group</span>
-            </button>
-            <p class="text-[11px] text-muted text-center mt-1.5">Step 3 of 4</p>
-          </div>
-
-          <div>
-            <button id="followBtn4"
-              class="w-full flex items-center justify-center gap-2 rounded-full bg-[#25D366] hover:bg-[#1ebe5b] text-white font-display font-semibold text-[15px] py-4 shadow-lg shadow-[#25D366]/30 transition-colors active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-              </svg>
-              <span>Join WhatsApp Group</span>
-            </button>
-            <p class="text-[11px] text-muted text-center mt-1.5">Step 4 of 4</p>
-          </div>
-        </div>
-
-        <button id="continueBtn" disabled aria-disabled="true"
-          class="is-disabled w-full flex items-center justify-center gap-2 rounded-full font-display font-semibold text-[15px] py-4 mt-3">
+        <button id="continueBtn" disabled aria-disabled="true" class="is-disabled w-full flex items-center justify-center gap-2 rounded-full font-display font-semibold text-[15px] py-4 mt-3 relative overflow-hidden">
           <span>Continue to Explore</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14M13 6l6 6-6 6"></path>
-          </svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
         </button>
 
-        <p id="helperText" class="text-xs text-muted text-center mt-3">
-          Complete all 4 steps to unlock the projects below
+        <p id="helperText" class="text-xs text-muted text-center mt-3 transition-opacity duration-300">
+          Complete both steps to unlock the projects below
         </p>
       </div>
     </section>
@@ -269,93 +259,119 @@
     <!-- Reveal: Projects -->
     <section id="projectsSection" class="mt-0">
       <div class="pt-8">
-        <p class="text-xs font-semibold tracking-[0.16em] text-accentDeep text-center uppercase">Projects</p>
-        <h2 class="font-display text-2xl font-extrabold text-center mt-1">Built &amp; Shipped</h2>
-        <p class="text-sm text-muted text-center mt-2 max-w-[320px] mx-auto">A couple of things I've put real time into recently.</p>
+        <p class="text-xs font-semibold tracking-[0.16em] text-accentDeep text-center uppercase">Projects & Links</p>
+        <h2 class="font-display text-2xl font-extrabold text-center mt-1">Explore & Join</h2>
+        <p class="text-sm text-muted text-center mt-2 max-w-[320px] mx-auto">Check out my recent builds and join the community.</p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-7">
 
-          <!-- Project 1 -->
-          <a href="https://artistic-connie-rajdev1-a6524cf6.koyeb.app/index.html" target="_blank" rel="noopener noreferrer"
-             class="project-card group block bg-white rounded-3xl border border-line shadow-sm p-5">
+          <!-- Project 1: Movie Website -->
+          <a href="https://artistic-connie-rajdev1-a6524cf6.koyeb.app/index.html" target="_blank" rel="noopener noreferrer" class="project-item block bg-white rounded-3xl border border-line shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 p-5 group">
             <div class="w-11 h-11 rounded-2xl bg-ink flex items-center justify-center mb-4">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-                <path d="M3 9h18M8 5v4M16 5v4"></path>
+                <rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 9h18M8 5v4M16 5v4"></path>
               </svg>
             </div>
             <h3 class="font-display font-bold text-[15px]">Movie Website</h3>
             <p class="text-sm text-muted mt-1.5 leading-relaxed">A fast, clean movie discovery site — browse, search, and explore titles without the clutter.</p>
             <span class="inline-flex items-center gap-1 text-sm font-semibold text-accentDeep mt-4 group-hover:gap-2 transition-all">
-              Visit project
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+              Visit project <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
             </span>
           </a>
 
-          <!-- Project 2 -->
-          <a href="https://teacher-ai-studio.onrender.com/" target="_blank" rel="noopener noreferrer"
-             class="project-card group block bg-white rounded-3xl border border-line shadow-sm p-5">
+          <!-- Project 2: Raj AI -->
+          <a href="https://teacher-ai-studio.onrender.com/" target="_blank" rel="noopener noreferrer" class="project-item block bg-white rounded-3xl border border-line shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 p-5 group">
             <div class="w-11 h-11 rounded-2xl bg-accent flex items-center justify-center mb-4">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 3v2M12 19v2M5 12H3M21 12h-2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"></path>
-                <rect x="8" y="8" width="8" height="8" rx="2"></rect>
+                <path d="M12 3v2M12 19v2M5 12H3M21 12h-2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"></path><rect x="8" y="8" width="8" height="8" rx="2"></rect>
               </svg>
             </div>
             <h3 class="font-display font-bold text-[15px]">Raj AI</h3>
             <p class="text-sm text-muted mt-1.5 leading-relaxed">An AI assistant built for natural, fast conversations — ask it anything and see how it responds.</p>
             <span class="inline-flex items-center gap-1 text-sm font-semibold text-accentDeep mt-4 group-hover:gap-2 transition-all">
-              Visit project
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+              Visit project <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+            </span>
+          </a>
+
+          <!-- Project 3: Telegram Group -->
+          <a href="https://t.me/+u4cmm3JmIrFlNzZl" target="_blank" rel="noopener noreferrer" class="project-item block bg-white rounded-3xl border border-line shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 p-5 group sm:col-span-2 md:col-span-1">
+            <div class="w-11 h-11 rounded-2xl bg-[#229ED9] flex items-center justify-center mb-4">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 2 11 13"></path><path d="M22 2 15 22l-4-9-9-4 20-7Z"></path>
+              </svg>
+            </div>
+            <h3 class="font-display font-bold text-[15px]">Telegram Community</h3>
+            <p class="text-sm text-muted mt-1.5 leading-relaxed">Join my official Telegram group for early updates, code snippets, and direct discussions.</p>
+            <span class="inline-flex items-center gap-1 text-sm font-semibold text-[#229ED9] mt-4 group-hover:gap-2 transition-all">
+              Join Group <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
             </span>
           </a>
 
         </div>
-
         <p class="text-xs text-muted text-center mt-10 mb-2">Thanks for stopping by — see you on Instagram.</p>
       </div>
     </section>
 
   </main>
-
-  <script>
+    <script>
     const IG_URL_1 = "https://www.instagram.com/itz_dminem_official43?igsh=MTZpNGMwOGwwMWl5dA==";
     const IG_URL_2 = "https://www.instagram.com/_raj_dev_1?igsh=cWh2cXBnNzRhamlr";
-    const TG_GROUP_URL = "https://t.me/+u4cmm3JmIrFlNzZl";
-    const WA_GROUP_URL = "https://chat.whatsapp.com/CO1w23Z2vYF0vksMEcxNXx?s=cl&p=a&mlu=3&amv=1";
     const WAIT_SECONDS = 30;
 
     const followBtn1 = document.getElementById('followBtn1');
     const followBtn2 = document.getElementById('followBtn2');
-    const followBtn3 = document.getElementById('followBtn3');
-    const followBtn4 = document.getElementById('followBtn4');
     const followStep2 = document.getElementById('followStep2');
-    const followStep34 = document.getElementById('followStep34');
+    
     const countdownWrap = document.getElementById('countdownWrap');
     const countdownNum = document.getElementById('countdownNum');
+    const countdownRing = document.getElementById('countdownRing');
+    
     const continueBtn = document.getElementById('continueBtn');
     const helperText = document.getElementById('helperText');
     const projectsSection = document.getElementById('projectsSection');
+    const progressBar = document.getElementById('progressBar');
 
-    let step1Done = false;
-    let step2Done = false;
-    let step3Done = false;
-    let step4Done = false;
+    let stepsCompleted = 0;
+    
+    // Morph button into green checkmark state
+    function morphToCompleted(btn) {
+      btn.disabled = true;
+      btn.style.backgroundColor = '#25D366'; // Green
+      btn.style.boxShadow = '0 10px 15px -3px rgba(37, 211, 102, 0.3)';
+      btn.style.color = 'white';
+      
+      const icon = btn.querySelector('.btn-icon');
+      const text = btn.querySelector('.btn-text');
+      
+      // Morph SVG to Checkmark
+      icon.innerHTML = `<polyline points="20 6 9 17 4 12"></polyline>`;
+      text.innerText = 'Completed';
+      
+      // Update Progress Bar (Now 50% per step)
+      stepsCompleted++;
+      progressBar.style.width = (stepsCompleted * 50) + '%';
+    }
 
     followBtn1.addEventListener('click', () => {
       window.open(IG_URL_1, '_blank', 'noopener,noreferrer');
-      if (step1Done) return;
-      step1Done = true;
-
-      followBtn1.disabled = true;
+      if (followBtn1.disabled) return;
+      
+      morphToCompleted(followBtn1);
       helperText.textContent = 'Thanks! Unlocking the next account…';
 
       let secondsLeft = WAIT_SECONDS;
+      const totalDash = 283; 
+      
       countdownNum.textContent = secondsLeft;
       countdownWrap.classList.remove('hidden');
 
       const timer = setInterval(() => {
         secondsLeft--;
         countdownNum.textContent = secondsLeft;
+        
+        const offset = totalDash - (totalDash * (secondsLeft / WAIT_SECONDS));
+        countdownRing.style.strokeDashoffset = offset;
+
         if (secondsLeft <= 0) {
           clearInterval(timer);
           countdownWrap.classList.add('hidden');
@@ -368,33 +384,14 @@
 
     followBtn2.addEventListener('click', () => {
       window.open(IG_URL_2, '_blank', 'noopener,noreferrer');
-      if (step2Done) return;
-      step2Done = true;
-
-      followBtn2.disabled = true;
-      followStep34.classList.remove('hidden');
-      followStep34.classList.add('animate-popIn');
-      helperText.textContent = 'Almost there — join the Telegram & WhatsApp groups too';
-    });
-
-    followBtn3.addEventListener('click', () => {
-      window.open(TG_GROUP_URL, '_blank', 'noopener,noreferrer');
-      if (step3Done) return;
-      step3Done = true;
-      followBtn3.disabled = true;
-      checkAllSteps();
-    });
-
-    followBtn4.addEventListener('click', () => {
-      window.open(WA_GROUP_URL, '_blank', 'noopener,noreferrer');
-      if (step4Done) return;
-      step4Done = true;
-      followBtn4.disabled = true;
+      if (followBtn2.disabled) return;
+      
+      morphToCompleted(followBtn2);
       checkAllSteps();
     });
 
     function checkAllSteps() {
-      if (step1Done && step2Done && step3Done && step4Done) {
+      if (stepsCompleted === 2) {
         activateContinue();
       }
     }
@@ -403,26 +400,35 @@
       continueBtn.disabled = false;
       continueBtn.setAttribute('aria-disabled', 'false');
       continueBtn.classList.remove('is-disabled');
-      continueBtn.classList.add('is-active');
-      continueBtn.classList.add('animate-popIn');
+      continueBtn.classList.add('is-active', 'btn-shimmer', 'animate-popIn');
 
       helperText.style.opacity = 0;
       setTimeout(() => {
         helperText.innerHTML = '<span class="text-accentDeep font-medium">Access unlocked — continue below ✓</span>';
         helperText.style.opacity = 1;
-      }, 200);
+      }, 300);
     }
 
     continueBtn.addEventListener('click', () => {
       if (continueBtn.disabled) return;
+      continueBtn.classList.remove('btn-shimmer');
       revealProjects();
     });
 
     function revealProjects() {
       projectsSection.classList.add('is-open', 'mt-2');
+      
       setTimeout(() => {
         projectsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 200);
+        
+        const items = document.querySelectorAll('.project-item');
+        items.forEach((item, index) => {
+          setTimeout(() => {
+            item.classList.add('show');
+          }, index * 200); 
+        });
+
+      }, 300);
     }
   </script>
 
