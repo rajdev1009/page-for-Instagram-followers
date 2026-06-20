@@ -6,10 +6,12 @@
 <title>Raj — Social Hub</title>
 <meta name="description" content="Main Web Apps aur AI tools develop karta hoon. Mere projects explore karein." />
 
+<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+<!-- Tailwind (CDN) -->
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
@@ -21,7 +23,6 @@
           accent: '#0095F6',
           accentDeep: '#1877D6',
           line: '#EFEFEF',
-          surface: '#FAFAFA',
         },
         fontFamily: {
           display: ['"Plus Jakarta Sans"', 'sans-serif'],
@@ -39,6 +40,10 @@
 
   body { font-family: 'Inter', sans-serif; }
   h1, h2, .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+  .force-circle { border-radius: 50% !important; }
+  .force-rounded-card { border-radius: 28px !important; }
+  .force-rounded-icon { border-radius: 16px !important; }
 
   .avatar-ring {
     background: conic-gradient(from 180deg, #0095F6, #1B1F3B, #0095F6);
@@ -105,35 +110,38 @@
 </style>
 </head>
 
-<body class="bg-surface text-ink antialiased min-h-screen relative overflow-x-hidden">
+<!-- Yahan Purple aur Pink ka gradient lagaya gaya hai -->
+<body class="bg-gradient-to-br from-purple-600 via-purple-500 to-pink-500 text-ink antialiased min-h-screen relative overflow-x-hidden">
 
-  <div class="pointer-events-none fixed -top-24 -left-20 w-72 h-72 rounded-full bg-accent/10 blur-3xl"></div>
-  <div class="pointer-events-none fixed top-1/3 -right-24 w-80 h-80 rounded-full bg-indigo-200/30 blur-3xl"></div>
-  <div class="pointer-events-none fixed bottom-0 left-1/4 w-72 h-72 rounded-full bg-sky-100/40 blur-3xl"></div>
+  <!-- Soft decorative glowing blobs (White and light pink to blend with background) -->
+  <div class="pointer-events-none fixed -top-24 -left-20 w-72 h-72 rounded-full bg-white/20 blur-3xl"></div>
+  <div class="pointer-events-none fixed top-1/3 -right-24 w-80 h-80 rounded-full bg-pink-300/20 blur-3xl"></div>
+  <div class="pointer-events-none fixed bottom-0 left-1/4 w-72 h-72 rounded-full bg-purple-300/30 blur-3xl"></div>
 
   <main class="relative z-10 mx-auto w-full max-w-[440px] px-5 py-10 sm:py-16">
 
+    <!-- Quick Links (With Telegram) -->
     <div class="mb-7 anim-fade-up" style="animation-delay: 0.1s;">
-      <p class="text-center text-[11px] text-muted leading-relaxed mb-3 max-w-[320px] mx-auto">
+      <p class="text-center text-[12px] font-medium text-white/90 leading-relaxed mb-3 max-w-[320px] mx-auto drop-shadow-sm">
         Mere accounts yahan se direct visit karein.
       </p>
       <div class="flex items-center justify-center gap-2 flex-wrap">
         <a href="https://www.instagram.com/itz_dminem_official43?igsh=MTZpNGMwOGwwMWl5dA==" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 bg-white border border-line rounded-full pl-2 pr-3 py-1.5 shadow-sm hover:shadow-md transition-shadow">
-          <span class="w-6 h-6 rounded-full flex items-center justify-center" style="background:conic-gradient(from 180deg,#0095F6,#1B1F3B,#0095F6)">
+          <span class="w-6 h-6 force-circle flex items-center justify-center" style="background:conic-gradient(from 180deg,#0095F6,#1B1F3B,#0095F6)">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"></rect><path d="M8 6l1.6-2.4A1.5 1.5 0 0 1 10.85 3h2.3a1.5 1.5 0 0 1 1.25.6L16 6"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
           </span>
           <span class="text-xs font-medium text-ink">@itz_dminem</span>
         </a>
 
         <a href="https://www.instagram.com/_raj_dev_1?igsh=cWh2cXBnNzRhamlr" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 bg-white border border-line rounded-full pl-2 pr-3 py-1.5 shadow-sm hover:shadow-md transition-shadow">
-          <span class="w-6 h-6 rounded-full flex items-center justify-center" style="background:conic-gradient(from 180deg,#0095F6,#1B1F3B,#0095F6)">
+          <span class="w-6 h-6 force-circle flex items-center justify-center" style="background:conic-gradient(from 180deg,#0095F6,#1B1F3B,#0095F6)">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"></rect><path d="M8 6l1.6-2.4A1.5 1.5 0 0 1 10.85 3h2.3a1.5 1.5 0 0 1 1.25.6L16 6"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
           </span>
           <span class="text-xs font-medium text-ink">@_raj_dev_1</span>
         </a>
 
         <a href="https://t.me/raj_dev_01" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 bg-white border border-line rounded-full pl-2 pr-3 py-1.5 shadow-sm hover:shadow-md transition-shadow">
-          <span class="w-6 h-6 rounded-full bg-[#229ED9] flex items-center justify-center">
+          <span class="w-6 h-6 force-circle bg-[#229ED9] flex items-center justify-center">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"></path><path d="M22 2 15 22l-4-9-9-4 20-7Z"></path></svg>
           </span>
           <span class="text-xs font-medium text-ink">@raj_dev_01</span>
@@ -141,18 +149,21 @@
       </div>
     </div>
 
-    <section class="relative bg-white rounded-[28px] shadow-[0_20px_40px_-15px_rgba(18,18,18,0.08)] border border-line px-6 py-9 sm:px-8 sm:py-10 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(18,18,18,0.15)] overflow-hidden">
+    <!-- Main Profile Card (White box inside the colorful background) -->
+    <section class="relative bg-white force-rounded-card shadow-[0_20px_40px_-15px_rgba(18,18,18,0.2)] border border-line px-6 py-9 sm:px-8 sm:py-10 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(18,18,18,0.3)] overflow-hidden">
       
       <div class="absolute top-0 left-0 h-1.5 bg-[#25D366] transition-all duration-700 ease-out" id="progressBar" style="width: 0%;"></div>
 
+      <!-- Avatar -->
       <div class="flex justify-center mb-5 anim-fade-up" style="animation-delay: 0.2s;">
-        <div class="avatar-ring anim-spin w-[104px] h-[104px] rounded-full p-[3px] anim-pulse">
-          <div class="w-full h-full rounded-full bg-white p-[3px]">
-            <img src="https://iili.io/CzE7YCv.webp" alt="Raj profile photo" class="w-full h-full rounded-full object-cover" />
+        <div class="avatar-ring force-circle anim-spin w-[104px] h-[104px] p-[3px] anim-pulse">
+          <div class="w-full h-full force-circle bg-white p-[3px] overflow-hidden">
+            <img src="https://iili.io/CzE7YCv.webp" alt="Raj profile photo" class="w-full h-full force-circle object-cover" />
           </div>
         </div>
       </div>
 
+      <!-- About Details -->
       <div class="text-center anim-fade-up" style="animation-delay: 0.3s;">
         <h1 class="font-display text-2xl font-extrabold tracking-tight">Raj</h1>
         
@@ -160,6 +171,7 @@
           Main Web Apps aur AI tools develop karta hoon. Ab tak maine fast movie websites aur natural AI assistants banaye hain. Future mein aise hi aur naye AI experiments aur tools aane wale hain.
         </p>
 
+        <!-- Topic Pills (Tags) -->
         <div class="flex flex-wrap items-center justify-center gap-2 mt-5">
           <span class="text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accentDeep">Web Apps</span>
           <span class="text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accentDeep">AI Tools</span>
@@ -167,12 +179,15 @@
         </div>
       </div>
 
+      <!-- Actions -->
       <div class="mt-8 anim-fade-up" style="animation-delay: 0.4s;">
 
+        <!-- Dynamic Instruction Text -->
         <p id="instructionText" class="text-[14px] text-ink font-bold text-center mb-3">
           Pehle is par tap karein aur follow karein:
         </p>
 
+        <!-- Step 1 -->
         <button id="followBtn1" class="w-full flex items-center justify-center gap-2 rounded-full bg-accent hover:bg-accentDeep text-white font-display font-semibold text-[15px] py-4 shadow-lg shadow-accent/30 transition-all duration-300 active:scale-[0.98] disabled:opacity-90 disabled:cursor-not-allowed">
           <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="6" width="18" height="14" rx="3"></rect><path d="M8 6l1.6-2.4A1.5 1.5 0 0 1 10.85 3h2.3a1.5 1.5 0 0 1 1.25.6L16 6"></path><circle cx="12" cy="13" r="3.5"></circle>
@@ -180,6 +195,7 @@
           <span class="btn-text">Follow @itz_dminem_official43</span>
         </button>
         
+        <!-- Circular Countdown -->
         <div id="countdownWrap" class="hidden flex flex-col items-center mt-4 mb-2 anim-pop">
           <div class="relative w-12 h-12">
             <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
@@ -191,6 +207,7 @@
           <p class="text-[11px] text-muted text-center mt-2">Checking validation...</p>
         </div>
 
+        <!-- Step 2 -->
         <div id="followStep2" class="hidden mt-3">
           <button id="followBtn2" class="w-full flex items-center justify-center gap-2 rounded-full bg-accent hover:bg-accentDeep text-white font-display font-semibold text-[15px] py-4 shadow-lg shadow-accent/30 transition-all duration-300 active:scale-[0.98] disabled:opacity-90 disabled:cursor-not-allowed">
             <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -208,40 +225,44 @@
       </div>
     </section>
 
+    <!-- Reveal: Projects -->
     <section id="projectsSection" class="mt-0">
       <div class="pt-8">
-        <h2 class="font-display text-2xl font-extrabold text-center mt-1">My Projects & Links</h2>
-        <p class="text-sm text-muted text-center mt-2 max-w-[320px] mx-auto">Explore the tools I've built and join the community.</p>
+        <h2 class="font-display text-2xl font-extrabold text-white text-center mt-1 drop-shadow-md">My Projects & Links</h2>
+        <p class="text-sm text-white/90 text-center mt-2 max-w-[320px] mx-auto drop-shadow-sm">Explore the tools I've built and join the community.</p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-7">
 
-          <a href="https://artistic-connie-rajdev1-a6524cf6.koyeb.app/index.html" target="_blank" rel="noopener noreferrer" class="project-item block bg-white rounded-3xl border border-line shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 p-5 group">
-            <div class="w-11 h-11 rounded-2xl bg-ink flex items-center justify-center mb-4">
+          <!-- Project 1 -->
+          <a href="https://artistic-connie-rajdev1-a6524cf6.koyeb.app/index.html" target="_blank" rel="noopener noreferrer" class="project-item block bg-white force-rounded-card border border-line shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300 p-5 group">
+            <div class="w-11 h-11 force-rounded-icon bg-ink flex items-center justify-center mb-4">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 9h18M8 5v4M16 5v4"></path></svg>
             </div>
-            <h3 class="font-display font-bold text-[15px]">Movie Website</h3>
+            <h3 class="font-display font-bold text-[15px] text-ink">Movie Website</h3>
             <p class="text-sm text-muted mt-1.5 leading-relaxed">Ek fast aur clean website jahan aap bina kisi annoying ads ke movies search aur explore kar sakte hain.</p>
             <span class="inline-flex items-center gap-1 text-sm font-semibold text-accentDeep mt-4 group-hover:gap-2 transition-all">
               Visit Website <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
             </span>
           </a>
 
-          <a href="https://teacher-ai-studio.onrender.com/" target="_blank" rel="noopener noreferrer" class="project-item block bg-white rounded-3xl border border-line shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 p-5 group">
-            <div class="w-11 h-11 rounded-2xl bg-accent flex items-center justify-center mb-4">
+          <!-- Project 2 -->
+          <a href="https://teacher-ai-studio.onrender.com/" target="_blank" rel="noopener noreferrer" class="project-item block bg-white force-rounded-card border border-line shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300 p-5 group">
+            <div class="w-11 h-11 force-rounded-icon bg-accent flex items-center justify-center mb-4">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v2M12 19v2M5 12H3M21 12h-2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"></path><rect x="8" y="8" width="8" height="8" rx="2"></rect></svg>
             </div>
-            <h3 class="font-display font-bold text-[15px]">Raj AI</h3>
+            <h3 class="font-display font-bold text-[15px] text-ink">Raj AI</h3>
             <p class="text-sm text-muted mt-1.5 leading-relaxed">Ek smart AI assistant jisse aap kuch bhi sawaal pooch sakte hain. Yeh kaafi fast response deta hai.</p>
             <span class="inline-flex items-center gap-1 text-sm font-semibold text-accentDeep mt-4 group-hover:gap-2 transition-all">
               Try Raj AI <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
             </span>
           </a>
 
-          <a href="https://t.me/+u4cmm3JmIrFlNzZl" target="_blank" rel="noopener noreferrer" class="project-item block bg-white rounded-3xl border border-line shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 p-5 group sm:col-span-2 md:col-span-1">
-            <div class="w-11 h-11 rounded-2xl bg-[#229ED9] flex items-center justify-center mb-4">
+          <!-- Project 3 -->
+          <a href="https://t.me/+u4cmm3JmIrFlNzZl" target="_blank" rel="noopener noreferrer" class="project-item block bg-white force-rounded-card border border-line shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300 p-5 group sm:col-span-2 md:col-span-1">
+            <div class="w-11 h-11 force-rounded-icon bg-[#229ED9] flex items-center justify-center mb-4">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"></path><path d="M22 2 15 22l-4-9-9-4 20-7Z"></path></svg>
             </div>
-            <h3 class="font-display font-bold text-[15px]">Telegram Community</h3>
+            <h3 class="font-display font-bold text-[15px] text-ink">Telegram Community</h3>
             <p class="text-sm text-muted mt-1.5 leading-relaxed">Mera official Telegram group join karein. Yahan main naye updates aur project links sabse pehle share karta hoon.</p>
             <span class="inline-flex items-center gap-1 text-sm font-semibold text-[#229ED9] mt-4 group-hover:gap-2 transition-all">
               Join Group <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
@@ -249,6 +270,8 @@
           </a>
 
         </div>
+        
+        <p class="text-[12px] font-medium text-white/80 text-center mt-10 mb-2 drop-shadow-sm">Thanks for stopping by — see you on Instagram.</p>
       </div>
     </section>
 
@@ -273,10 +296,9 @@
 
     let stepsCompleted = 0;
     
-    // Morph button function
     function morphToCompleted(btn) {
       btn.disabled = true;
-      btn.style.backgroundColor = '#25D366'; // Green
+      btn.style.backgroundColor = '#25D366'; 
       btn.style.boxShadow = '0 10px 15px -3px rgba(37, 211, 102, 0.3)';
       btn.style.color = 'white';
       
@@ -317,7 +339,6 @@
           followStep2.classList.remove('hidden');
           followStep2.classList.add('anim-pop');
           
-          // Step 1 complete hone ke baad ki instructions
           instructionText.textContent = "Ab Step 2: Niche isko follow karein, fir Explore ka button khulega:";
           instructionText.classList.remove("text-accentDeep");
         }
@@ -334,9 +355,8 @@
 
     function checkAllSteps() {
       if (stepsCompleted === 2) {
-        // Dono steps hone ke baad instruction update
         instructionText.textContent = "Dono steps done! Ab niche Continue par click karke websites access karein.";
-        instructionText.style.color = '#25D366'; // Green success text
+        instructionText.style.color = '#25D366'; 
         activateContinue();
       }
     }
