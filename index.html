@@ -126,9 +126,7 @@
       <div class="flex justify-center mb-5">
         <div class="avatar-ring w-[104px] h-[104px] rounded-full p-[3px]">
           <div class="w-full h-full rounded-full bg-white p-[3px]">
-            <div class="w-full h-full rounded-full bg-ink flex items-center justify-center">
-              <span class="font-display text-3xl font-extrabold text-white">R</span>
-            </div>
+            <img src="https://iili.io/CzE7YCv.webp" alt="Raj profile photo" class="w-full h-full rounded-full object-cover" />
           </div>
         </div>
       </div>
@@ -139,7 +137,7 @@
         <p class="text-sm text-muted mt-0.5">@raj.codes</p>
 
         <p class="font-body text-[15px] leading-relaxed text-ink/80 mt-4 max-w-[300px] mx-auto">
-          I design and build practical web &amp; AI tools, then share how they're made. New builds land on Instagram first.
+          Follow both my Instagram pages below — new builds, behind-the-scenes, and AI experiments land there first.
         </p>
 
         <!-- Topic pills -->
@@ -152,15 +150,37 @@
 
       <!-- Actions -->
       <div class="mt-8">
-        <button id="followBtn"
-          class="w-full flex items-center justify-center gap-2 rounded-full bg-accent hover:bg-accentDeep text-white font-display font-semibold text-[15px] py-4 shadow-lg shadow-accent/30 transition-colors active:scale-[0.98]">
+
+        <!-- Step 1 -->
+        <button id="followBtn1"
+          class="w-full flex items-center justify-center gap-2 rounded-full bg-accent hover:bg-accentDeep text-white font-display font-semibold text-[15px] py-4 shadow-lg shadow-accent/30 transition-colors active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="6" width="18" height="14" rx="3"></rect>
             <path d="M8 6l1.6-2.4A1.5 1.5 0 0 1 10.85 3h2.3a1.5 1.5 0 0 1 1.25.6L16 6"></path>
             <circle cx="12" cy="13" r="3.5"></circle>
           </svg>
-          Follow on Instagram
+          <span>Follow @itz_dminem_official43</span>
         </button>
+        <p class="text-[11px] text-muted text-center mt-1.5">Step 1 of 2</p>
+
+        <!-- Countdown between steps -->
+        <p id="countdownWrap" class="hidden text-xs text-muted text-center mt-3">
+          Second account unlocks in <span id="countdownNum">30</span>s
+        </p>
+
+        <!-- Step 2 -->
+        <div id="followStep2" class="hidden mt-3">
+          <button id="followBtn2"
+            class="w-full flex items-center justify-center gap-2 rounded-full bg-accent hover:bg-accentDeep text-white font-display font-semibold text-[15px] py-4 shadow-lg shadow-accent/30 transition-colors active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="6" width="18" height="14" rx="3"></rect>
+              <path d="M8 6l1.6-2.4A1.5 1.5 0 0 1 10.85 3h2.3a1.5 1.5 0 0 1 1.25.6L16 6"></path>
+              <circle cx="12" cy="13" r="3.5"></circle>
+            </svg>
+            <span>Follow @_raj_dev_1</span>
+          </button>
+          <p class="text-[11px] text-muted text-center mt-1.5">Step 2 of 2</p>
+        </div>
 
         <button id="continueBtn" disabled aria-disabled="true"
           class="is-disabled w-full flex items-center justify-center gap-2 rounded-full font-display font-semibold text-[15px] py-4 mt-3">
@@ -171,7 +191,7 @@
         </button>
 
         <p id="helperText" class="text-xs text-muted text-center mt-3">
-          Follow on Instagram to unlock the projects below
+          Follow both accounts to unlock the projects below
         </p>
       </div>
     </section>
@@ -228,22 +248,54 @@
   </main>
 
   <script>
-    const IG_URL = "https://instagram.com/raj.codes"; // TODO: replace with your real Instagram profile URL
+    const IG_URL_1 = "https://www.instagram.com/itz_dminem_official43?igsh=MTZpNGMwOGwwMWl5dA==";
+    const IG_URL_2 = "https://www.instagram.com/_raj_dev_1?igsh=cWh2cXBnNzRhamlr";
+    const WAIT_SECONDS = 30;
 
-    const followBtn = document.getElementById('followBtn');
+    const followBtn1 = document.getElementById('followBtn1');
+    const followBtn2 = document.getElementById('followBtn2');
+    const followStep2 = document.getElementById('followStep2');
+    const countdownWrap = document.getElementById('countdownWrap');
+    const countdownNum = document.getElementById('countdownNum');
     const continueBtn = document.getElementById('continueBtn');
     const helperText = document.getElementById('helperText');
     const projectsSection = document.getElementById('projectsSection');
 
-    let hasFollowed = false;
+    let step1Done = false;
+    let step2Done = false;
 
-    followBtn.addEventListener('click', () => {
-      window.open(IG_URL, '_blank', 'noopener,noreferrer');
+    followBtn1.addEventListener('click', () => {
+      window.open(IG_URL_1, '_blank', 'noopener,noreferrer');
+      if (step1Done) return;
+      step1Done = true;
 
-      if (!hasFollowed) {
-        hasFollowed = true;
-        activateContinue();
-      }
+      followBtn1.disabled = true;
+      helperText.textContent = 'Thanks! Unlocking the next account…';
+
+      let secondsLeft = WAIT_SECONDS;
+      countdownNum.textContent = secondsLeft;
+      countdownWrap.classList.remove('hidden');
+
+      const timer = setInterval(() => {
+        secondsLeft--;
+        countdownNum.textContent = secondsLeft;
+        if (secondsLeft <= 0) {
+          clearInterval(timer);
+          countdownWrap.classList.add('hidden');
+          followStep2.classList.remove('hidden');
+          followStep2.classList.add('animate-popIn');
+          helperText.textContent = 'Now follow the second account to unlock access';
+        }
+      }, 1000);
+    });
+
+    followBtn2.addEventListener('click', () => {
+      window.open(IG_URL_2, '_blank', 'noopener,noreferrer');
+      if (step2Done) return;
+      step2Done = true;
+
+      followBtn2.disabled = true;
+      activateContinue();
     });
 
     function activateContinue() {
