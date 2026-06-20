@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Raj — Social Hub</title>
+<meta name="description" content="Follow along, then explore what I've built." />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Tailwind (CDN) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#121212',
+          muted: '#6B7280',
+          accent: '#0095F6',
+          accentDeep: '#1877D6',
+          line: '#EFEFEF',
+          surface: '#FAFAFA',
+        },
+        fontFamily: {
+          display: ['"Plus Jakarta Sans"', 'sans-serif'],
+          body: ['"Inter"', 'sans-serif'],
+        },
+        keyframes: {
+          fadeInUp: {
+            '0%':   { opacity: 0, transform: 'translateY(8px)' },
+            '100%': { opacity: 1, transform: 'translateY(0)' },
+          },
+          ringSpin: {
+            '0%':   { transform: 'rotate(0deg)' },
+            '100%': { transform: 'rotate(360deg)' },
+          },
+          popIn: {
+            '0%':   { opacity: 0, transform: 'scale(0.96)' },
+            '100%': { opacity: 1, transform: 'scale(1)' },
+          },
+        },
+        animation: {
+          fadeInUp: 'fadeInUp 0.45s ease forwards',
+          ringSpin: 'ringSpin 7s linear infinite',
+          popIn: 'popIn 0.5s ease forwards',
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+
+  body { font-family: 'Inter', sans-serif; }
+  h1, h2, .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+  /* Avatar ring — deliberately not Instagram's signature gradient, a quieter blue→navy sweep */
+  .avatar-ring {
+    background: conic-gradient(from 180deg, #0095F6, #1B1F3B, #0095F6);
+    animation: ringSpin 9s linear infinite;
+  }
+
+  /* Continue button states */
+  #continueBtn {
+    transition: background-color .35s ease, color .35s ease, box-shadow .35s ease, transform .15s ease, opacity .35s ease;
+  }
+  #continueBtn.is-disabled {
+    background-color: #ECECEC;
+    color: #ABABAB;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  #continueBtn.is-active {
+    background-color: #121212;
+    color: #FFFFFF;
+    cursor: pointer;
+    box-shadow: 0 10px 24px -8px rgba(18,18,18,0.35);
+  }
+  #continueBtn.is-active:active { transform: scale(0.98); }
+
+  #helperText { transition: opacity .25s ease; }
+
+  /* Reveal section expand */
+  #projectsSection {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height .7s cubic-bezier(.22,.61,.36,1), opacity .6s ease, margin-top .6s ease;
+  }
+  #projectsSection.is-open {
+    max-height: 2000px;
+    opacity: 1;
+  }
+
+  .project-card { transition: transform .25s ease, box-shadow .25s ease; }
+  .project-card:hover { transform: translateY(-3px); box-shadow: 0 16px 32px -16px rgba(18,18,18,0.18); }
+
+  /* visible keyboard focus */
+  button:focus-visible, a:focus-visible {
+    outline: 2px solid #0095F6;
+    outline-offset: 3px;
+  }
+</style>
+</head>
+
+<body class="bg-surface text-ink antialiased min-h-screen relative overflow-x-hidden">
+
+  <!-- Soft decorative background blobs -->
+  <div class="pointer-events-none fixed -top-24 -left-20 w-72 h-72 rounded-full bg-accent/10 blur-3xl"></div>
+  <div class="pointer-events-none fixed top-1/3 -right-24 w-80 h-80 rounded-full bg-indigo-200/30 blur-3xl"></div>
+  <div class="pointer-events-none fixed bottom-0 left-1/4 w-72 h-72 rounded-full bg-sky-100/40 blur-3xl"></div>
+
+  <main class="relative z-10 mx-auto w-full max-w-[440px] px-5 py-10 sm:py-16">
+
+    <!-- Profile Card -->
+    <section class="bg-white rounded-[28px] shadow-[0_20px_50px_-20px_rgba(18,18,18,0.15)] border border-line px-6 py-9 sm:px-8 sm:py-10">
+
+      <!-- Avatar -->
+      <div class="flex justify-center mb-5">
+        <div class="avatar-ring w-[104px] h-[104px] rounded-full p-[3px]">
+          <div class="w-full h-full rounded-full bg-white p-[3px]">
+            <div class="w-full h-full rounded-full bg-ink flex items-center justify-center">
+              <span class="font-display text-3xl font-extrabold text-white">R</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Identity -->
+      <div class="text-center">
+        <h1 class="font-display text-xl font-extrabold tracking-tight">Raj</h1>
+        <p class="text-sm text-muted mt-0.5">@raj.codes</p>
+
+        <p class="font-body text-[15px] leading-relaxed text-ink/80 mt-4 max-w-[300px] mx-auto">
+          I design and build practical web &amp; AI tools, then share how they're made. New builds land on Instagram first.
+        </p>
+
+        <!-- Topic pills -->
+        <div class="flex flex-wrap items-center justify-center gap-2 mt-5">
+          <span class="text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accentDeep">Web Apps</span>
+          <span class="text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accentDeep">AI Tools</span>
+          <span class="text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accentDeep">UI / UX</span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="mt-8">
+        <button id="followBtn"
+          class="w-full flex items-center justify-center gap-2 rounded-full bg-accent hover:bg-accentDeep text-white font-display font-semibold text-[15px] py-4 shadow-lg shadow-accent/30 transition-colors active:scale-[0.98]">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="6" width="18" height="14" rx="3"></rect>
+            <path d="M8 6l1.6-2.4A1.5 1.5 0 0 1 10.85 3h2.3a1.5 1.5 0 0 1 1.25.6L16 6"></path>
+            <circle cx="12" cy="13" r="3.5"></circle>
+          </svg>
+          Follow on Instagram
+        </button>
+
+        <button id="continueBtn" disabled aria-disabled="true"
+          class="is-disabled w-full flex items-center justify-center gap-2 rounded-full font-display font-semibold text-[15px] py-4 mt-3">
+          <span>Continue to Explore</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M13 6l6 6-6 6"></path>
+          </svg>
+        </button>
+
+        <p id="helperText" class="text-xs text-muted text-center mt-3">
+          Follow on Instagram to unlock the projects below
+        </p>
+      </div>
+    </section>
+
+    <!-- Reveal: Projects -->
+    <section id="projectsSection" class="mt-0">
+      <div class="pt-8">
+        <p class="text-xs font-semibold tracking-[0.16em] text-accentDeep text-center uppercase">Projects</p>
+        <h2 class="font-display text-2xl font-extrabold text-center mt-1">Built &amp; Shipped</h2>
+        <p class="text-sm text-muted text-center mt-2 max-w-[320px] mx-auto">A couple of things I've put real time into recently.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-7">
+
+          <!-- Project 1 -->
+          <a href="https://artistic-connie-rajdev1-a6524cf6.koyeb.app/index.html" target="_blank" rel="noopener noreferrer"
+             class="project-card group block bg-white rounded-3xl border border-line shadow-sm p-5">
+            <div class="w-11 h-11 rounded-2xl bg-ink flex items-center justify-center mb-4">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                <path d="M3 9h18M8 5v4M16 5v4"></path>
+              </svg>
+            </div>
+            <h3 class="font-display font-bold text-[15px]">Movie Website</h3>
+            <p class="text-sm text-muted mt-1.5 leading-relaxed">A fast, clean movie discovery site — browse, search, and explore titles without the clutter.</p>
+            <span class="inline-flex items-center gap-1 text-sm font-semibold text-accentDeep mt-4 group-hover:gap-2 transition-all">
+              Visit project
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+            </span>
+          </a>
+
+          <!-- Project 2 -->
+          <a href="https://teacher-ai-studio.onrender.com/" target="_blank" rel="noopener noreferrer"
+             class="project-card group block bg-white rounded-3xl border border-line shadow-sm p-5">
+            <div class="w-11 h-11 rounded-2xl bg-accent flex items-center justify-center mb-4">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3v2M12 19v2M5 12H3M21 12h-2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"></path>
+                <rect x="8" y="8" width="8" height="8" rx="2"></rect>
+              </svg>
+            </div>
+            <h3 class="font-display font-bold text-[15px]">Raj AI</h3>
+            <p class="text-sm text-muted mt-1.5 leading-relaxed">An AI assistant built for natural, fast conversations — ask it anything and see how it responds.</p>
+            <span class="inline-flex items-center gap-1 text-sm font-semibold text-accentDeep mt-4 group-hover:gap-2 transition-all">
+              Visit project
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+            </span>
+          </a>
+
+        </div>
+
+        <p class="text-xs text-muted text-center mt-10 mb-2">Thanks for stopping by — see you on Instagram.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const IG_URL = "https://instagram.com/raj.codes"; // TODO: replace with your real Instagram profile URL
+
+    const followBtn = document.getElementById('followBtn');
+    const continueBtn = document.getElementById('continueBtn');
+    const helperText = document.getElementById('helperText');
+    const projectsSection = document.getElementById('projectsSection');
+
+    let hasFollowed = false;
+
+    followBtn.addEventListener('click', () => {
+      window.open(IG_URL, '_blank', 'noopener,noreferrer');
+
+      if (!hasFollowed) {
+        hasFollowed = true;
+        activateContinue();
+      }
+    });
+
+    function activateContinue() {
+      continueBtn.disabled = false;
+      continueBtn.setAttribute('aria-disabled', 'false');
+      continueBtn.classList.remove('is-disabled');
+      continueBtn.classList.add('is-active');
+      continueBtn.classList.add('animate-popIn');
+
+      helperText.style.opacity = 0;
+      setTimeout(() => {
+        helperText.innerHTML = '<span class="text-accentDeep font-medium">Access unlocked — continue below ✓</span>';
+        helperText.style.opacity = 1;
+      }, 200);
+    }
+
+    continueBtn.addEventListener('click', () => {
+      if (continueBtn.disabled) return;
+      revealProjects();
+    });
+
+    function revealProjects() {
+      projectsSection.classList.add('is-open', 'mt-2');
+      setTimeout(() => {
+        projectsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 200);
+    }
+  </script>
+
+</body>
+</html>
