@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<title>Raj — Social Hub</title>
+<meta name="description" content="Main Web Apps aur AI tools develop karta hoon."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={theme:{extend:{colors:{ink:'#121212',muted:'#6B7280',accent:'#0095F6',accentDeep:'#1877D6',line:'#EFEFEF'},fontFamily:{display:['"Plus Jakarta Sans"','sans-serif'],body:['"Inter"','sans-serif'],mono:['"Share Tech Mono"','monospace']}}}};
+</script>
+<style>
+*{cursor:none!important}
+body{font-family:'Inter',sans-serif;transition:background 0.5s ease}
+h1,h2,.font-display{font-family:'Plus Jakarta Sans',sans-serif}
+.force-circle{border-radius:50%!important}
+.force-rounded-card{border-radius:28px!important}
+.force-rounded-icon{border-radius:16px!important}
+
+/* ---- RGB AVATAR RING ---- */
+@keyframes rgbRingSpin{
+  0%{background:conic-gradient(from 0deg,#ff0000,#ff7700,#ffff00,#00ff00,#0000ff,#8b00ff,#ff0000)}
+  16%{background:conic-gradient(from 60deg,#ff0000,#ff7700,#ffff00,#00ff00,#0000ff,#8b00ff,#ff0000)}
+  33%{background:conic-gradient(from 120deg,#ff0000,#ff7700,#ffff00,#00ff00,#0000ff,#8b00ff,#ff0000)}
+  50%{background:conic-gradient(from 180deg,#ff0000,#ff7700,#ffff00,#00ff00,#0000ff,#8b00ff,#ff0000)}
+  66%{background:conic-gradient(from 240deg,#ff0000,#ff7700,#ffff00,#00ff00,#0000ff,#8b00ff,#ff0000)}
+  83%{background:conic-gradient(from 300deg,#ff0000,#ff7700,#ffff00,#00ff00,#0000ff,#8b00ff,#ff0000)}
+  100%{background:conic-gradient(from 360deg,#ff0000,#ff7700,#ffff00,#00ff00,#0000ff,#8b00ff,#ff0000)}
+}
+@keyframes rgbGlowPulse{
+  0%{box-shadow:0 0 12px 4px rgba(255,0,0,0.8),0 0 30px 8px rgba(255,0,0,0.4)}
+  16%{box-shadow:0 0 12px 4px rgba(255,165,0,0.8),0 0 30px 8px rgba(255,165,0,0.4)}
+  33%{box-shadow:0 0 12px 4px rgba(255,255,0,0.8),0 0 30px 8px rgba(255,255,0,0.4)}
+  50%{box-shadow:0 0 12px 4px rgba(0,255,0,0.8),0 0 30px 8px rgba(0,255,0,0.4)}
+  66%{box-shadow:0 0 12px 4px rgba(0,100,255,0.8),0 0 30px 8px rgba(0,100,255,0.4)}
+  83%{box-shadow:0 0 12px 4px rgba(139,0,255,0.8),0 0 30px 8px rgba(139,0,255,0.4)}
+  100%{box-shadow:0 0 12px 4px rgba(255,0,0,0.8),0 0 30px 8px rgba(255,0,0,0.4)}
+}
+.avatar-ring{animation:rgbRingSpin 2s linear infinite,rgbGlowPulse 2s linear infinite!important}
+
+/* ---- RGB NAME GLOW ---- */
+@keyframes rgbNameGlow{
+  0%{color:#ff0000;text-shadow:0 0 10px #ff0000,0 0 25px rgba(255,0,0,0.5)}
+  16%{color:#ff8800;text-shadow:0 0 10px #ff8800,0 0 25px rgba(255,136,0,0.5)}
+  33%{color:#ffff00;text-shadow:0 0 10px #ffff00,0 0 25px rgba(255,255,0,0.5)}
+  50%{color:#00ff88;text-shadow:0 0 10px #00ff88,0 0 25px rgba(0,255,136,0.5)}
+  66%{color:#00aaff;text-shadow:0 0 10px #00aaff,0 0 25px rgba(0,170,255,0.5)}
+  83%{color:#cc00ff;text-shadow:0 0 10px #cc00ff,0 0 25px rgba(204,0,255,0.5)}
+  100%{color:#ff0000;text-shadow:0 0 10px #ff0000,0 0 25px rgba(255,0,0,0.5)}
+}
+#nameText{animation:rgbNameGlow 2s linear infinite!important}
+
+/* ---- WHITE MODE TEXT COLOR CYCLE ---- */
+@keyframes whiteModeTextCycle{
+  0%{color:#000000}
+  20%{color:#1a6b00}
+  40%{color:#0044cc}
+  60%{color:#cc0000}
+  80%{color:#7700cc}
+  100%{color:#000000}
+}
+body:not(.dark-mode) .text-ink,body:not(.dark-mode) h1,body:not(.dark-mode) h2,body:not(.dark-mode) h3{
+  animation:whiteModeTextCycle 4s linear infinite
+}
+body:not(.dark-mode) #nameText{
+  animation:rgbNameGlow 2s linear infinite!important
+}
+
+/* ---- FLYING ANIMATION (rocket + airplane) ---- */
+@keyframes flyAcrossScreen{
+  0%{transform:translateX(-150px) translateY(0) scale(1);opacity:0}
+  5%{opacity:1}
+  40%{transform:translateX(30vw) translateY(-30px) scale(1.1)}
+  60%{transform:translateX(60vw) translateY(10px) scale(1)}
+  95%{opacity:1}
+  100%{transform:translateX(calc(100vw + 150px)) translateY(-20px) scale(0.9);opacity:0}
+}
+@keyframes flyDiagonal{
+  0%{transform:translate(-150px,50px) rotate(-15deg) scale(1);opacity:0}
+  5%{opacity:1}
+  50%{transform:translate(40vw,-60px) rotate(-10deg) scale(1.15)}
+  95%{opacity:1}
+  100%{transform:translate(calc(100vw+150px),-120px) rotate(-5deg) scale(0.85);opacity:0}
+}
+.fly-obj{position:fixed;font-size:42px;pointer-events:none;z-index:9995;line-height:1}
+
+/* ---- PAGE LOADER ---- */
+#pageLoader{position:fixed;inset:0;z-index:99999;background:#0f0f1a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;transition:opacity 0.6s ease}
+#pageLoader.hide{opacity:0;pointer-events:none}
+.loader-cube{width:50px;height:50px;position:relative;transform-style:preserve-3d;animation:cubeRotate 1.5s linear infinite}
+@keyframes cubeRotate{to{transform:rotateX(360deg) rotateY(360deg)}}
+.cube-face{position:absolute;width:50px;height:50px;border:2px solid #0095F6;background:rgba(0,149,246,0.08)}
+.cube-face.front {transform:translateZ(25px)}
+.cube-face.back  {transform:rotateY(180deg) translateZ(25px)}
+.cube-face.left  {transform:rotateY(-90deg) translateZ(25px)}
+.cube-face.right {transform:rotateY(90deg) translateZ(25px)}
+.cube-face.top   {transform:rotateX(90deg) translateZ(25px)}
+.cube-face.bottom{transform:rotateX(-90deg) translateZ(25px)}
+#loaderText{font-family:'Share Tech Mono',monospace;color:#0095F6;font-size:16px;letter-spacing:2px;animation:loaderBlink 0.5s step-end infinite}
+@keyframes loaderBlink{50%{opacity:0.3}}
+
+/* ---- CANVAS LAYERS ---- */
+#particleCanvas,#matrixCanvas,#spotlightCanvas{position:fixed;inset:0;pointer-events:none;z-index:1}
+#matrixCanvas{display:none;z-index:2}
+#spotlightCanvas{z-index:3;mix-blend-mode:soft-light}
+
+/* ---- ANIMATED GRADIENT BG ---- */
+@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+body.animated-bg{background:linear-gradient(135deg,#6d28d9,#7c3aed,#9333ea,#c026d3,#db2777,#ec4899,#8b5cf6,#6d28d9);background-size:400% 400%;animation:gradientShift 8s ease infinite}
+body.dark-mode{background:linear-gradient(135deg,#0f0f13,#1a1a2e,#16213e)!important;animation:none!important}
+body.dark-mode.animated-bg{background:linear-gradient(135deg,#0f0f1a,#1a1030,#0d1b2a,#1a0a2e,#0f1520)!important;background-size:400% 400%!important;animation:gradientShift 8s ease infinite!important}
+
+/* ---- CUSTOM CURSOR ---- */
+#cursorDot{width:8px;height:8px;background:white;border-radius:50%;position:fixed;transform:translate(-50%,-50%);pointer-events:none;z-index:99998;transition:width .15s,height .15s}
+#cursorRing{width:36px;height:36px;border:2px solid rgba(255,255,255,0.7);border-radius:50%;position:fixed;transform:translate(-50%,-50%);pointer-events:none;z-index:99997;transition:width .2s,height .2s,opacity .2s}
+body.dark-mode #cursorDot{background:#a78bfa}
+body.dark-mode #cursorRing{border-color:rgba(167,139,250,0.6)}
+@keyframes cursorClick{to{transform:translate(-50%,-50%) scale(2.5);opacity:0}}
+.cursor-click-ring{position:fixed;width:36px;height:36px;border:2px solid rgba(255,255,255,0.8);border-radius:50%;pointer-events:none;z-index:99996;animation:cursorClick 0.4s ease-out forwards}
+
+/* ---- DARK MODE ---- */
+body.dark-mode section.bg-white,body.dark-mode .bg-white{background-color:#1a1a24!important;border-color:#2a2a3a!important}
+body.dark-mode .text-ink{color:#e8e8f0!important}
+body.dark-mode .text-muted{color:#9090a8!important}
+body.dark-mode .border-line{border-color:#2a2a3a!important}
+body.dark-mode h1,body.dark-mode h2,body.dark-mode h3{color:#f0f0ff!important}
+body.dark-mode .tag-pill{background:rgba(139,92,246,0.2)!important;color:#a78bfa!important}
+body.dark-mode .project-item{background:#1a1a24!important;border-color:#2a2a3a!important}
+body.dark-mode .social-link{background:#1a1a24!important;border-color:#2a2a3a!important}
+body.dark-mode #continueBtn.is-disabled{background-color:#2a2a3a!important;color:#555570!important}
+body.dark-mode .toast{background:#f0f0ff!important;color:#0f0f13!important}
+body.dark-mode #typingCursor{background:#a78bfa!important}
+
+/* ---- FIXED BUTTONS (top-right) ---- */
+.ctrl-btn{position:fixed;right:16px;z-index:9990;width:44px;height:44px;border-radius:50%;border:none;cursor:pointer!important;font-size:18px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.22);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.25);box-shadow:0 4px 16px rgba(0,0,0,0.2);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.ctrl-btn:hover{transform:scale(1.15) rotate(15deg)!important}
+body.dark-mode .ctrl-btn{background:rgba(20,20,40,0.7)}
+#darkModeBtn{top:16px}
+#gradientBtn{top:68px}
+#matrixBtn{top:120px}
+#spotlightBtn{top:172px}
+#soundBtn{top:224px}
+
+/* ---- CLOCK (top-left) ---- */
+#clockBox{position:fixed;top:16px;left:16px;z-index:9990;background:rgba(255,255,255,0.18);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.25);border-radius:16px;padding:8px 14px;text-align:center}
+#clockTime{font-family:'Share Tech Mono',monospace;font-size:18px;font-weight:700;color:white;line-height:1;text-shadow:0 0 10px rgba(0,149,246,0.6)}
+#clockDate{font-size:9px;font-weight:600;color:rgba(255,255,255,0.7);margin-top:2px;letter-spacing:0.5px}
+body.dark-mode #clockBox{background:rgba(20,20,40,0.75);border-color:rgba(255,255,255,0.08)}
+
+/* ---- SCROLL PROGRESS ---- */
+#scrollProgress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#0095F6,#a855f7,#ec4899);z-index:99999;border-radius:0 2px 2px 0;transition:width .1s linear}
+
+/* ---- TOAST ---- */
+#toastContainer{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:99995;display:flex;flex-direction:column;gap:10px;align-items:center;pointer-events:none}
+.toast{background:#121212;color:white;padding:10px 20px;border-radius:100px;font-size:13px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;opacity:0;transform:translateY(20px) scale(0.95);animation:toastIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards;box-shadow:0 8px 24px rgba(0,0,0,0.3);pointer-events:none}
+.toast.out{animation:toastOut 0.35s ease forwards}
+@keyframes toastIn{to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes toastOut{to{opacity:0;transform:translateY(10px) scale(0.95)}}
+
+/* ---- FLOATING EMOJI PARTICLES ---- */
+.emoji-particle{position:fixed;pointer-events:none;font-size:22px;user-select:none;z-index:0;opacity:0;animation:floatUp var(--dur,8s) var(--delay,0s) ease-in-out infinite}
+@keyframes floatUp{0%{opacity:0;transform:translateY(100vh) rotate(0deg)}10%{opacity:.7}90%{opacity:.4}100%{opacity:0;transform:translateY(-120px) rotate(360deg)}}
+
+/* ---- AVATAR (RGB ring via new CSS above) ---- */
+@keyframes customRingSpin{to{transform:rotate(360deg)}}
+.anim-spin-unused{animation:customRingSpin 9s linear infinite}
+@keyframes customPulseGlow{0%{box-shadow:0 0 0 0 rgba(0,149,246,0.4)}70%{box-shadow:0 0 0 15px rgba(0,149,246,0)}100%{box-shadow:0 0 0 0 rgba(0,149,246,0)}}
+.anim-pulse{animation:customPulseGlow 1.5s ease-out 1}
+.online-dot{position:absolute;bottom:6px;right:6px;width:14px;height:14px;background:#25D366;border-radius:50%;border:2px solid white;z-index:10;animation:onlinePulse 2s ease-in-out infinite}
+@keyframes onlinePulse{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,0.5)}50%{box-shadow:0 0 0 6px rgba(37,211,102,0)}}
+.live-badge{position:absolute;top:-4px;right:-4px;background:linear-gradient(135deg,#ff416c,#ff4b2b);color:white;font-size:9px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;padding:2px 7px;border-radius:100px;letter-spacing:.5px;border:2px solid white;animation:badgePulse 1.5s ease-in-out infinite;z-index:11}
+@keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(255,65,108,0.5)}50%{box-shadow:0 0 0 5px rgba(255,65,108,0)}}
+
+/* ---- CARD ANIMATIONS ---- */
+@keyframes customFadeInUp{0%{opacity:0;transform:translateY(15px)}100%{opacity:1;transform:translateY(0)}}
+.anim-fade-up{opacity:0;animation:customFadeInUp 0.6s cubic-bezier(0.16,1,0.3,1) forwards}
+@keyframes customPopIn{0%{opacity:0;transform:scale(0.96)}100%{opacity:1;transform:scale(1)}}
+.anim-pop{opacity:0;animation:customPopIn 0.5s ease forwards}
+
+/* ---- MAIN CARD GLASS ---- */
+.main-glass{background:rgba(255,255,255,0.88)!important;backdrop-filter:blur(24px) saturate(200%)!important;-webkit-backdrop-filter:blur(24px) saturate(200%)!important;border:1px solid rgba(255,255,255,0.65)!important;box-shadow:0 20px 40px -15px rgba(18,18,18,0.15),inset 0 1px 0 rgba(255,255,255,1)!important}
+body.dark-mode .main-glass{background:rgba(26,26,36,0.85)!important;border-color:rgba(255,255,255,0.06)!important}
+
+/* ---- BUTTONS ---- */
+#continueBtn{transition:all .35s ease}
+#continueBtn.is-disabled{background-color:#ECECEC;color:#ABABAB;cursor:not-allowed;box-shadow:none}
+#continueBtn.is-active{background-color:#121212;color:#FFFFFF;cursor:pointer;box-shadow:0 10px 24px -8px rgba(18,18,18,0.35)}
+@keyframes shimmer{100%{transform:translateX(100%)}}
+.btn-shimmer::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,0.25),transparent);transform:translateX(-100%);animation:shimmer 2s infinite}
+.ripple-container{position:relative;overflow:hidden}
+.ripple-wave{position:absolute;border-radius:50%;transform:scale(0);background:rgba(255,255,255,0.35);animation:rippleGrow .55s linear;pointer-events:none}
+@keyframes rippleGrow{to{transform:scale(4);opacity:0}}
+
+/* ---- PROGRESS BAR (green top of card) ---- */
+#progressBar{transition:width .7s ease}
+
+/* ---- PROJECTS ---- */
+#projectsSection{max-height:0;opacity:0;overflow:hidden;transition:max-height .8s cubic-bezier(.22,.61,.36,1),opacity .6s ease,margin-top .6s ease}
+#projectsSection.is-open{max-height:9999px;opacity:1}
+.project-item{opacity:0;transform:translateY(20px);transition:all 0.6s cubic-bezier(0.16,1,0.3,1)}
+.project-item.show{opacity:1;transform:translateY(0)}
+.glass-card{background:rgba(255,255,255,0.78)!important;backdrop-filter:blur(20px) saturate(180%)!important;-webkit-backdrop-filter:blur(20px) saturate(180%)!important;border:1px solid rgba(255,255,255,0.6)!important;box-shadow:0 8px 32px rgba(31,38,135,0.12),inset 0 1px 0 rgba(255,255,255,0.8)!important}
+.glass-card:hover{background:rgba(255,255,255,0.92)!important;transform:translateY(-4px)!important;box-shadow:0 20px 48px rgba(31,38,135,0.18),inset 0 1px 0 rgba(255,255,255,0.9)!important}
+body.dark-mode .glass-card{background:rgba(26,26,36,0.78)!important;border-color:rgba(255,255,255,0.07)!important;box-shadow:0 8px 32px rgba(0,0,0,0.4)!important}
+.project-emoji{display:block;font-size:26px;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.group:hover .project-emoji{transform:scale(1.35) rotate(-8deg)}
+
+/* ---- 3D TILT CARDS ---- */
+.tilt-card{transform-style:preserve-3d;transition:transform .1s ease,box-shadow .2s ease}
+.tilt-card .tilt-inner{transform:translateZ(20px);transition:transform .1s ease}
+
+/* ---- SOCIAL LINKS ---- */
+.glass-social{background:rgba(255,255,255,0.8)!important;backdrop-filter:blur(12px)!important;border:1px solid rgba(255,255,255,0.6)!important}
+body.dark-mode .glass-social{background:rgba(26,26,36,0.8)!important;border-color:rgba(255,255,255,0.08)!important}
+.social-link{transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s ease}
+.social-link:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 8px 20px rgba(0,0,0,0.12)}
+
+/* ---- TYPING CURSOR ---- */
+#typingCursor{display:inline-block;width:2px;height:1em;background:#0095F6;margin-left:2px;vertical-align:text-bottom;animation:blink .9s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ---- TAG PILLS ---- */
+.tag-pill{transition:all .25s ease;cursor:default}
+.tag-pill:hover{background:rgba(0,149,246,0.2);transform:scale(1.06);box-shadow:0 0 10px rgba(0,149,246,0.25)}
+
+/* ---- WAVE HAND ---- */
+.wave-hand{display:inline-block;animation:waveAnim 1.8s ease-in-out infinite;transform-origin:70% 70%}
+@keyframes waveAnim{0%{transform:rotate(0deg)}15%{transform:rotate(18deg)}30%{transform:rotate(-8deg)}45%{transform:rotate(18deg)}60%{transform:rotate(-4deg)}75%{transform:rotate(10deg)}100%{transform:rotate(0deg)}}
+
+/* ---- NAME EMOJI ---- */
+.name-emoji{display:inline-block;animation:emojiFloat 2.5s ease-in-out infinite}
+@keyframes emojiFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+/* ---- TEXT SCRAMBLE / GLITCH ---- */
+.glitch-text{display:inline-block;transition:color .1s}
+.glitch-text:hover{animation:glitchShake .3s ease forwards}
+@keyframes glitchShake{0%{transform:translateX(0)}20%{transform:translateX(-3px) skewX(-5deg)}40%{transform:translateX(3px) skewX(5deg)}60%{transform:translateX(-2px)}80%{transform:translateX(2px)}100%{transform:translateX(0)}}
+
+/* ---- CIRCULAR SKILL RINGS ---- */
+.skill-ring-wrap{display:flex;flex-direction:column;align-items:center;gap:6px}
+.skill-ring-svg circle.ring-fill{transition:stroke-dashoffset 1.6s cubic-bezier(.16,1,.3,1);stroke-dashoffset:220}
+.skill-ring-label{font-size:10px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;color:white;text-align:center;line-height:1.2}
+.skill-ring-pct{font-size:13px;font-weight:800;font-family:'Share Tech Mono',monospace;fill:white}
+body.dark-mode .skill-ring-pct{fill:#e8e8f0}
+
+/* ---- SCROLL TRIGGERED REVEALS ---- */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ---- ACHIEVEMENT BADGES ---- */
+.badge-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);transition:all .4s cubic-bezier(.16,1,.3,1);opacity:.45;filter:grayscale(1)}
+.badge-item.unlocked{opacity:1;filter:grayscale(0);background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.35);animation:badgeUnlock .6s cubic-bezier(.34,1.56,.64,1) forwards}
+body.dark-mode .badge-item.unlocked{background:rgba(139,92,246,0.15);border-color:rgba(139,92,246,0.3)}
+@keyframes badgeUnlock{0%{transform:scale(0.85)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
+.badge-icon{font-size:28px;flex-shrink:0}
+.badge-name{font-size:12px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;color:white;line-height:1.2}
+body.dark-mode .badge-name{color:#e8e8f0}
+.badge-desc{font-size:10px;color:rgba(255,255,255,0.65);margin-top:2px}
+.badge-lock{font-size:11px;color:rgba(255,255,255,0.4);margin-left:auto;flex-shrink:0}
+.badge-item.unlocked .badge-lock{display:none}
+.badge-check{display:none;font-size:14px;margin-left:auto;flex-shrink:0}
+.badge-item.unlocked .badge-check{display:block}
+
+/* ---- MUSIC PLAYER ---- */
+#musicPlayer{position:fixed;bottom:24px;right:16px;z-index:9990;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.18);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.3);border-radius:100px;padding:8px 16px 8px 10px;box-shadow:0 8px 32px rgba(0,0,0,0.2);transition:all .4s cubic-bezier(.16,1,.3,1)}
+body.dark-mode #musicPlayer{background:rgba(20,20,40,0.75);border-color:rgba(255,255,255,0.08)}
+#musicPlayer.collapsed{padding:8px;border-radius:50%}
+#musicPlayer.collapsed #musicInfo{display:none}
+#musicPlayBtn{width:36px;height:36px;border-radius:50%;background:white;border:none;cursor:pointer!important;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.15);transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
+body.dark-mode #musicPlayBtn{background:#2a2a40}
+#musicPlayBtn:hover{transform:scale(1.12)!important}
+#musicTitle{font-size:11px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px}
+body.dark-mode #musicTitle{color:#e8e8f0}
+#musicWave{display:flex;align-items:flex-end;gap:2px;height:14px;margin-top:3px}
+#musicWave span{display:block;width:3px;background:rgba(255,255,255,0.8);border-radius:2px;animation:musicWave .8s ease-in-out infinite}
+#musicWave span:nth-child(1){height:5px;animation-delay:0s}
+#musicWave span:nth-child(2){height:10px;animation-delay:.15s}
+#musicWave span:nth-child(3){height:7px;animation-delay:.3s}
+#musicWave span:nth-child(4){height:12px;animation-delay:.1s}
+#musicWave span:nth-child(5){height:5px;animation-delay:.25s}
+#musicWave.paused span{animation-play-state:paused;height:3px!important}
+@keyframes musicWave{0%,100%{transform:scaleY(1)}50%{transform:scaleY(2)}}
+#musicCollapseBtn{background:none;border:none;cursor:pointer!important;font-size:11px;color:rgba(255,255,255,0.7);padding:0;margin-left:2px;flex-shrink:0;transition:transform .2s ease}
+#musicCollapseBtn:hover{transform:scale(1.3)!important}
+
+/* ---- QUOTE BOX ---- */
+#quoteBox{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:rgba(255,255,255,0.15);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.3);border-radius:24px;padding:28px 32px;max-width:340px;width:90%;text-align:center;display:none;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+body.dark-mode #quoteBox{background:rgba(20,20,40,0.85);border-color:rgba(255,255,255,0.1)}
+#quoteBox.show{display:block;animation:customPopIn .4s ease}
+#quoteText{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:700;color:white;line-height:1.6}
+body.dark-mode #quoteText{color:#e8e8f0}
+#quoteAuthor{font-size:12px;color:rgba(255,255,255,0.65);margin-top:10px;font-style:italic}
+#quoteClose{position:absolute;top:12px;right:16px;background:none;border:none;cursor:pointer!important;font-size:18px;color:rgba(255,255,255,0.6)}
+
+/* ---- KEYBOARD SHORTCUTS PANEL ---- */
+#shortcutsPanel{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:rgba(15,15,26,0.95);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:24px 28px;width:320px;display:none;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+#shortcutsPanel.show{display:block;animation:customPopIn .3s ease}
+.shortcut-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+.shortcut-key{font-family:'Share Tech Mono',monospace;background:rgba(255,255,255,0.1);color:#0095F6;padding:3px 10px;border-radius:8px;font-size:12px;font-weight:700;border:1px solid rgba(0,149,246,0.3)}
+.shortcut-desc{font-size:12px;color:rgba(255,255,255,0.7);font-family:'Plus Jakarta Sans',sans-serif}
+
+/* ---- KONAMI / EASTER EGG ---- */
+#konamiOverlay{position:fixed;inset:0;z-index:99990;background:rgba(0,0,0,0.92);display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+#konamiOverlay.show{display:flex;animation:customFadeInUp .5s ease}
+#konamiText{font-family:'Share Tech Mono',monospace;font-size:clamp(18px,5vw,32px);color:#0095F6;text-align:center;text-shadow:0 0 20px #0095F6;animation:konamiPulse 1s ease-in-out infinite}
+@keyframes konamiPulse{0%,100%{text-shadow:0 0 20px #0095F6}50%{text-shadow:0 0 60px #0095F6,0 0 100px #7c3aed}}
+#konamiClose{background:none;border:1px solid rgba(255,255,255,0.2);color:white;padding:10px 28px;border-radius:100px;cursor:pointer!important;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:14px;transition:all .3s ease}
+#konamiClose:hover{background:rgba(255,255,255,0.1)}
+
+/* ---- SKILLS SECTION ---- */
+#badgePanel,#skillsSection{background:rgba(255,255,255,0.12);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.2);border-radius:24px;padding:20px;margin-top:16px}
+body.dark-mode #badgePanel,body.dark-mode #skillsSection{background:rgba(20,20,40,0.5);border-color:rgba(255,255,255,0.07)}
+
+/* ---- STATS BAR ---- */
+#statsBar{background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.2);border-radius:20px;animation:customFadeInUp .8s cubic-bezier(.16,1,.3,1) 1.2s both}
+body.dark-mode #statsBar{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.08)}
+.stat-icon{animation:emojiFloat 3s ease-in-out infinite}
+
+/* ---- CONTACT FORM ---- */
+#contactSection{background:rgba(255,255,255,0.12);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.2);border-radius:24px;padding:20px;margin-top:16px}
+body.dark-mode #contactSection{background:rgba(20,20,40,0.5);border-color:rgba(255,255,255,0.07)}
+.contact-input{width:100%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:12px;padding:10px 14px;color:white;font-family:'Inter',sans-serif;font-size:13px;outline:none;transition:border-color .2s ease}
+.contact-input::placeholder{color:rgba(255,255,255,0.45)}
+.contact-input:focus{border-color:rgba(0,149,246,0.6);background:rgba(255,255,255,0.2)}
+body.dark-mode .contact-input{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.1)}
+
+/* ---- QR PANEL ---- */
+#qrPanel{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:white;border-radius:24px;padding:24px;text-align:center;display:none;box-shadow:0 20px 60px rgba(0,0,0,0.4);min-width:240px}
+body.dark-mode #qrPanel{background:#1a1a24;border:1px solid #2a2a3a}
+#qrPanel.show{display:block;animation:customPopIn .4s ease}
+#qrClose{position:absolute;top:12px;right:16px;background:none;border:none;cursor:pointer!important;font-size:18px;color:#999}
+#qrTitle{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:#121212;margin-bottom:16px}
+body.dark-mode #qrTitle{color:#e8e8f0}
+#qrImg{border-radius:12px;margin:0 auto}
+
+/* ---- CONFETTI ---- */
+.confetti-piece{position:fixed;width:8px;height:8px;border-radius:2px;pointer-events:none;z-index:9998;animation:confettiFall var(--fall-dur,1.5s) var(--fall-delay,0s) ease-in forwards}
+@keyframes confettiFall{0%{opacity:1;transform:translateY(0) rotate(0deg)}100%{opacity:0;transform:translateY(400px) rotate(720deg)}}
+
+/* ---- STAR BURST ---- */
+.star-burst{position:fixed;pointer-events:none;z-index:9997;animation:starFloat 1.2s ease-out forwards}
+@keyframes starFloat{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-120px) scale(.5)}}
+
+/* ---- SPARKLE TRAIL ---- */
+.sparkle-trail{position:fixed;pointer-events:none;z-index:9996;animation:sparkleOut .7s ease-out forwards}
+@keyframes sparkleOut{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.2) translateY(-20px)}}
+
+/* ---- 3D FOOTER ---- */
+#footer3d{background:linear-gradient(135deg,rgba(0,149,246,0.2),rgba(124,58,237,0.2),rgba(236,72,153,0.2));backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:24px;margin-top:16px;position:relative;overflow:hidden}
+#footer3d::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(255,255,255,0.05),transparent);animation:footerShimmer 3s ease-in-out infinite}
+@keyframes footerShimmer{0%,100%{opacity:0}50%{opacity:1}}
+
+</style>
+</head>
+
+<body class="text-ink antialiased min-h-screen relative overflow-x-hidden animated-bg">
+
+<!-- PAGE LOADER -->
+<div id="pageLoader">
+  <div class="loader-cube" style="perspective:200px">
+    <div class="cube-face front"></div>
+    <div class="cube-face back"></div>
+    <div class="cube-face left"></div>
+    <div class="cube-face right"></div>
+    <div class="cube-face top"></div>
+    <div class="cube-face bottom"></div>
+  </div>
+  <div id="loaderText">LOADING...</div>
+</div>
+
+<!-- CANVAS: Particle Network -->
+<canvas id="particleCanvas"></canvas>
+<!-- CANVAS: Matrix Rain -->
+<canvas id="matrixCanvas"></canvas>
+<!-- CANVAS: Spotlight -->
+<canvas id="spotlightCanvas"></canvas>
+
+<!-- CUSTOM CURSOR -->
+<div id="cursorDot"></div>
+<div id="cursorRing"></div>
+
+<!-- SCROLL PROGRESS -->
+<div id="scrollProgress"></div>
+
+<!-- TOAST -->
+<div id="toastContainer"></div>
+
+<!-- CONTROL BUTTONS -->
+<button class="ctrl-btn" id="darkModeBtn" title="Dark Mode (D)">🌙</button>
+<button class="ctrl-btn" id="gradientBtn" title="Gradient (G)">🌈</button>
+<button class="ctrl-btn" id="matrixBtn"   title="Matrix (M)">🟢</button>
+<button class="ctrl-btn" id="spotlightBtn" title="Spotlight (L)">🔦</button>
+<button class="ctrl-btn" id="soundBtn"    title="Sound FX (S)">🔊</button>
+
+<!-- LIVE CLOCK -->
+<div id="clockBox">
+  <div id="clockTime">00:00:00</div>
+  <div id="clockDate">Loading...</div>
+</div>
+
+<!-- MUSIC PLAYER -->
+<div id="musicPlayer">
+  <button id="musicPrevBtn" aria-label="Previous" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.15);border:none;cursor:pointer!important;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .2s ease" title="Previous">⏮️</button>
+  <button id="musicPlayBtn" aria-label="Play/Pause">▶️</button>
+  <button id="musicNextBtn" aria-label="Next" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.15);border:none;cursor:pointer!important;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .2s ease" title="Next">⏭️</button>
+  <div id="musicInfo">
+    <div id="musicTitle">My Favourite Song 🎵</div>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <div id="musicWave" class="paused">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <span id="musicTrackNum" style="font-size:9px;color:rgba(255,255,255,0.5);font-family:'Share Tech Mono',monospace">1/12</span>
+    </div>
+  </div>
+  <button id="musicCollapseBtn" title="Collapse">✕</button>
+</div>
+
+<!-- QUOTE BOX -->
+<div id="quoteBox">
+  <button id="quoteClose" aria-label="Close">✕</button>
+  <div id="quoteText"></div>
+  <div id="quoteAuthor"></div>
+</div>
+
+<!-- QR PANEL -->
+<div id="qrPanel">
+  <button id="qrClose" aria-label="Close">✕</button>
+  <div id="qrTitle">Scan to Visit</div>
+  <canvas id="qrImg" width="180" height="180"></canvas>
+</div>
+
+<!-- KEYBOARD SHORTCUTS PANEL -->
+<div id="shortcutsPanel">
+  <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:white;margin-bottom:14px">⌨️ Keyboard Shortcuts</h3>
+  <div class="shortcut-row"><span class="shortcut-key">D</span><span class="shortcut-desc">Dark Mode toggle</span></div>
+  <div class="shortcut-row"><span class="shortcut-key">G</span><span class="shortcut-desc">Gradient animation</span></div>
+  <div class="shortcut-row"><span class="shortcut-key">M</span><span class="shortcut-desc">Matrix Rain</span></div>
+  <div class="shortcut-row"><span class="shortcut-key">L</span><span class="shortcut-desc">Spotlight / Torch</span></div>
+  <div class="shortcut-row"><span class="shortcut-key">S</span><span class="shortcut-desc">Sound FX toggle</span></div>
+  <div class="shortcut-row"><span class="shortcut-key">Q</span><span class="shortcut-desc">Random Quote</span></div>
+  <div class="shortcut-row"><span class="shortcut-key">Esc</span><span class="shortcut-desc">Close panels</span></div>
+  <div class="shortcut-row" style="border:none"><span class="shortcut-key">?</span><span class="shortcut-desc">This panel</span></div>
+  <p style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:14px;font-family:'Share Tech Mono',monospace">Try: ↑↑↓↓←→←→BA 🎮</p>
+</div>
+
+<!-- KONAMI EASTER EGG -->
+<div id="konamiOverlay">
+  <div id="konamiText">🎮 CHEAT CODE ACTIVATED! 🎮<br><span style="font-size:.6em;color:#ec4899">Raj ki taraf se secret greeting! 👾</span></div>
+  <button id="konamiClose">Back to Reality</button>
+</div>
+
+<!-- EMOJI PARTICLES -->
+<div id="emojiParticles" aria-hidden="true"></div>
+
+<!-- MAIN CONTENT -->
+<main class="relative z-10 mx-auto w-full max-w-[440px] px-5 py-10 sm:py-16">
+
+  <!-- QUICK LINKS -->
+  <div class="mb-7 anim-fade-up reveal" style="animation-delay:.1s">
+    <p class="text-center text-[12px] font-medium text-white/90 leading-relaxed mb-3 max-w-[320px] mx-auto drop-shadow-sm">Mere accounts yahan se direct visit karein.</p>
+    <div class="flex items-center justify-center gap-2 flex-wrap">
+      <a href="https://www.instagram.com/itz_dminem_official43?igsh=MTZpNGMwOGwwMWl5dA==" target="_blank" rel="noopener noreferrer" class="social-link glass-social flex items-center gap-1.5 bg-white border border-line rounded-full pl-2 pr-3 py-1.5 shadow-sm copy-link" data-url="https://www.instagram.com/itz_dminem_official43">
+        <span class="w-6 h-6 force-circle flex items-center justify-center" style="background:conic-gradient(from 180deg,#0095F6,#1B1F3B,#0095F6)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M8 6l1.6-2.4A1.5 1.5 0 0 1 10.85 3h2.3a1.5 1.5 0 0 1 1.25.6L16 6"/><circle cx="12" cy="13" r="3.5"/></svg>
+        </span>
+        <span class="text-xs font-medium text-ink">@itz_dminem</span>
+      </a>
+      <a href="https://www.instagram.com/_raj_dev_1?igsh=cWh2cXBnNzRhamlr" target="_blank" rel="noopener noreferrer" class="social-link glass-social flex items-center gap-1.5 bg-white border border-line rounded-full pl-2 pr-3 py-1.5 shadow-sm copy-link" data-url="https://www.instagram.com/_raj_dev_1">
+        <span class="w-6 h-6 force-circle flex items-center justify-center" style="background:conic-gradient(from 180deg,#0095F6,#1B1F3B,#0095F6)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M8 6l1.6-2.4A1.5 1.5 0 0 1 10.85 3h2.3a1.5 1.5 0 0 1 1.25.6L16 6"/><circle cx="12" cy="13" r="3.5"/></svg>
+        </span>
+        <span class="text-xs font-medium text-ink">@_raj_dev_1</span>
+      </a>
+      <a href="https://t.me/raj_dev_01" target="_blank" rel="noopener noreferrer" class="social-link glass-social flex items-center gap-1.5 bg-white border border-line rounded-full pl-2 pr-3 py-1.5 shadow-sm copy-link" data-url="https://t.me/raj_dev_01">
+        <span class="w-6 h-6 force-circle bg-[#229ED9] flex items-center justify-center">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7Z"/></svg>
+        </span>
+        <span class="text-xs font-medium text-ink">@raj_dev_01</span>
+      </a>
+    </div>
+    <p class="text-center text-[10px] text-white/50 mt-2">💡 Ctrl+Click = Copy link</p>
+  </div>
+
+  <!-- MAIN PROFILE CARD -->
+  <section class="main-glass relative force-rounded-card px-6 py-9 sm:px-8 sm:py-10 overflow-hidden tilt-card anim-fade-up reveal" style="animation-delay:.2s">
+    <div class="absolute top-0 left-0 h-1.5 bg-[#25D366] transition-all duration-700" id="progressBar" style="width:0%"></div>
+
+    <!-- AVATAR -->
+    <div class="flex justify-center mb-5 anim-fade-up" style="animation-delay:.2s">
+      <div class="relative inline-block">
+        <div class="avatar-ring force-circle anim-spin anim-pulse w-[104px] h-[104px] p-[3px]">
+          <div class="w-full h-full force-circle bg-white p-[3px] overflow-hidden">
+            <img src="https://iili.io/CzE7YCv.webp" alt="Raj" class="w-full h-full force-circle object-cover"/>
+          </div>
+        </div>
+        <span class="online-dot" title="Online"></span>
+        <span class="live-badge">● LIVE</span>
+      </div>
+    </div>
+
+    <!-- NAME + BIO -->
+    <div class="text-center anim-fade-up tilt-inner" style="animation-delay:.3s">
+      <h1 class="font-display text-2xl font-extrabold tracking-tight">
+        <span class="glitch-text" id="nameText">Raj</span> <span class="name-emoji">👨‍💻</span>
+      </h1>
+      <p class="font-body text-[14px] leading-relaxed text-ink/80 mt-4 max-w-[310px] mx-auto text-left sm:text-center">
+        <span id="bioText"></span><span id="typingCursor"></span>
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-2 mt-5">
+        <span class="tag-pill text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accentDeep">🌐 Web Apps</span>
+        <span class="tag-pill text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accentDeep">🤖 AI Tools</span>
+        <span class="tag-pill text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accentDeep">⚡ Developer</span>
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="mt-8 anim-fade-up" style="animation-delay:.4s">
+      <p id="instructionText" class="text-[14px] text-ink font-bold text-center mb-3">
+        <span class="wave-hand">👋</span> Pehle is par tap karein aur follow karein:
+      </p>
+
+      <button id="followBtn1" class="ripple-container w-full flex items-center justify-center gap-2 rounded-full bg-accent hover:bg-accentDeep text-white font-display font-semibold text-[15px] py-4 shadow-lg shadow-accent/30 transition-all duration-300 active:scale-[0.98]">
+        <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M8 6l1.6-2.4A1.5 1.5 0 0 1 10.85 3h2.3a1.5 1.5 0 0 1 1.25.6L16 6"/><circle cx="12" cy="13" r="3.5"/></svg>
+        <span class="btn-text">Follow @itz_dminem_official43</span>
+      </button>
+
+      <div id="countdownWrap" class="hidden flex flex-col items-center mt-4 mb-2 anim-pop">
+        <div class="relative w-12 h-12">
+          <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#EFEFEF" stroke-width="6"/>
+            <circle id="countdownRing" cx="50" cy="50" r="45" fill="none" stroke="#0095F6" stroke-width="6" stroke-dasharray="283" stroke-dashoffset="0" class="transition-all duration-1000 ease-linear"/>
+          </svg>
+          <div class="absolute inset-0 flex items-center justify-center text-sm font-bold text-ink" id="countdownNum">30</div>
+        </div>
+        <p class="text-[11px] text-muted text-center mt-2">⏳ Checking validation...</p>
+      </div>
+
+      <div id="followStep2" class="hidden mt-3">
+        <button id="followBtn2" class="ripple-container w-full flex items-center justify-center gap-2 rounded-full bg-accent hover:bg-accentDeep text-white font-display font-semibold text-[15px] py-4 shadow-lg shadow-accent/30 transition-all duration-300 active:scale-[0.98]">
+          <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M8 6l1.6-2.4A1.5 1.5 0 0 1 10.85 3h2.3a1.5 1.5 0 0 1 1.25.6L16 6"/><circle cx="12" cy="13" r="3.5"/></svg>
+          <span class="btn-text">Follow @_raj_dev_1</span>
+        </button>
+      </div>
+
+      <button id="continueBtn" disabled aria-disabled="true" class="ripple-container is-disabled w-full flex items-center justify-center gap-2 rounded-full font-display font-semibold text-[15px] py-4 mt-4 relative overflow-hidden">
+        <span>Continue to Explore 🚀</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- PROJECTS SECTION -->
+  <section id="projectsSection" class="mt-0">
+    <div class="pt-8">
+      <h2 class="font-display text-2xl font-extrabold text-white text-center mt-1 drop-shadow-md reveal">✨ My Projects & Links</h2>
+      <p class="text-sm text-white/90 text-center mt-2 max-w-[320px] mx-auto drop-shadow-sm reveal">Explore the tools I've built and join the community.</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-7">
+        <a href="https://artistic-connie-rajdev1-a6524cf6.koyeb.app/index.html" target="_blank" rel="noopener noreferrer" class="project-item glass-card block force-rounded-card border border-line shadow-lg transition-all duration-300 p-5 group tilt-card reveal">
+          <div class="w-11 h-11 force-rounded-icon bg-ink flex items-center justify-center mb-4">
+            <span class="project-emoji">🎬</span>
+          </div>
+          <h3 class="font-display font-bold text-[15px] text-ink tilt-inner">Movie Website</h3>
+          <p class="text-sm text-muted mt-1.5 leading-relaxed">Fast aur clean website — bina ads ke movies explore karein.</p>
+          <span class="inline-flex items-center gap-1 text-sm font-semibold text-accentDeep mt-4 group-hover:gap-2 transition-all">Visit Website <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+
+        <a href="https://teacher-ai-studio.onrender.com/" target="_blank" rel="noopener noreferrer" class="project-item glass-card block force-rounded-card border border-line shadow-lg transition-all duration-300 p-5 group tilt-card reveal">
+          <div class="w-11 h-11 force-rounded-icon bg-accent flex items-center justify-center mb-4">
+            <span class="project-emoji">🤖</span>
+          </div>
+          <h3 class="font-display font-bold text-[15px] text-ink tilt-inner">Raj AI</h3>
+          <p class="text-sm text-muted mt-1.5 leading-relaxed">Smart AI assistant — kuch bhi poochho, fast response milega.</p>
+          <span class="inline-flex items-center gap-1 text-sm font-semibold text-accentDeep mt-4 group-hover:gap-2 transition-all">Try Raj AI <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+
+        <a href="https://t.me/+u4cmm3JmIrFlNzZl" target="_blank" rel="noopener noreferrer" class="project-item glass-card block force-rounded-card border border-line shadow-lg transition-all duration-300 p-5 group tilt-card reveal sm:col-span-2">
+          <div class="w-11 h-11 force-rounded-icon bg-[#229ED9] flex items-center justify-center mb-4">
+            <span class="project-emoji">💬</span>
+          </div>
+          <h3 class="font-display font-bold text-[15px] text-ink tilt-inner">Telegram Community</h3>
+          <p class="text-sm text-muted mt-1.5 leading-relaxed">Official group join karein — naye updates sabse pehle yahan!</p>
+          <span class="inline-flex items-center gap-1 text-sm font-semibold text-[#229ED9] mt-4 group-hover:gap-2 transition-all">Join Group <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+      </div>
+
+      <!-- STATS BAR -->
+      <div id="statsBar" class="flex items-center justify-center gap-6 mt-8 px-6 py-4 reveal">
+        <div class="text-center"><div class="stat-icon text-xl mb-1">⭐</div><div class="text-white font-bold text-lg font-display" id="statViews">0</div><div class="text-white/70 text-[10px] font-medium">Profile Views</div></div>
+        <div class="w-px h-10 bg-white/20"></div>
+        <div class="text-center"><div class="stat-icon text-xl mb-1" style="animation-delay:.5s">🚀</div><div class="text-white font-bold text-lg font-display">3</div><div class="text-white/70 text-[10px] font-medium">Projects Live</div></div>
+        <div class="w-px h-10 bg-white/20"></div>
+        <div class="text-center"><div class="stat-icon text-xl mb-1" style="animation-delay:1s">💻</div><div class="text-white font-bold text-lg font-display">2+</div><div class="text-white/70 text-[10px] font-medium">Years Coding</div></div>
+      </div>
+
+      <!-- CIRCULAR SKILL RINGS -->
+      <div id="skillsSection" class="reveal">
+        <h3 class="font-display font-bold text-white text-[15px] mb-5 flex items-center gap-2">⭕ My Skills</h3>
+        <div class="grid grid-cols-5 gap-2">
+          <!-- JS -->
+          <div class="skill-ring-wrap">
+            <svg width="60" height="60" viewBox="0 0 80 80">
+              <circle cx="40" cy="40" r="35" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="7"/>
+              <circle class="ring-fill" cx="40" cy="40" r="35" fill="none" stroke="url(#g1)" stroke-width="7" stroke-linecap="round" stroke-dasharray="220" transform="rotate(-90 40 40)" data-val="194"/>
+              <text x="40" y="44" text-anchor="middle" class="skill-ring-pct" font-size="14" font-family="Share Tech Mono">88%</text>
+              <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%"><stop offset="0%" stop-color="#0095F6"/><stop offset="100%" stop-color="#7c3aed"/></linearGradient></defs>
+            </svg>
+            <span class="skill-ring-label">⚡ JS</span>
+          </div>
+          <!-- CSS -->
+          <div class="skill-ring-wrap">
+            <svg width="60" height="60" viewBox="0 0 80 80">
+              <circle cx="40" cy="40" r="35" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="7"/>
+              <circle class="ring-fill" cx="40" cy="40" r="35" fill="none" stroke="url(#g2)" stroke-width="7" stroke-linecap="round" stroke-dasharray="220" transform="rotate(-90 40 40)" data-val="202"/>
+              <text x="40" y="44" text-anchor="middle" class="skill-ring-pct" font-size="14" font-family="Share Tech Mono">92%</text>
+              <defs><linearGradient id="g2" x1="0%" y1="0%" x2="100%"><stop offset="0%" stop-color="#ec4899"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient></defs>
+            </svg>
+            <span class="skill-ring-label">🎨 CSS</span>
+          </div>
+          <!-- AI -->
+          <div class="skill-ring-wrap">
+            <svg width="60" height="60" viewBox="0 0 80 80">
+              <circle cx="40" cy="40" r="35" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="7"/>
+              <circle class="ring-fill" cx="40" cy="40" r="35" fill="none" stroke="url(#g3)" stroke-width="7" stroke-linecap="round" stroke-dasharray="220" transform="rotate(-90 40 40)" data-val="176"/>
+              <text x="40" y="44" text-anchor="middle" class="skill-ring-pct" font-size="14" font-family="Share Tech Mono">80%</text>
+              <defs><linearGradient id="g3" x1="0%" y1="0%" x2="100%"><stop offset="0%" stop-color="#25D366"/><stop offset="100%" stop-color="#0095F6"/></linearGradient></defs>
+            </svg>
+            <span class="skill-ring-label">🤖 AI</span>
+          </div>
+          <!-- Python -->
+          <div class="skill-ring-wrap">
+            <svg width="60" height="60" viewBox="0 0 80 80">
+              <circle cx="40" cy="40" r="35" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="7"/>
+              <circle class="ring-fill" cx="40" cy="40" r="35" fill="none" stroke="url(#g4)" stroke-width="7" stroke-linecap="round" stroke-dasharray="220" transform="rotate(-90 40 40)" data-val="158"/>
+              <text x="40" y="44" text-anchor="middle" class="skill-ring-pct" font-size="14" font-family="Share Tech Mono">72%</text>
+              <defs><linearGradient id="g4" x1="0%" y1="0%" x2="100%"><stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#ef4444"/></linearGradient></defs>
+            </svg>
+            <span class="skill-ring-label">🐍 Py</span>
+          </div>
+          <!-- DevOps -->
+          <div class="skill-ring-wrap">
+            <svg width="60" height="60" viewBox="0 0 80 80">
+              <circle cx="40" cy="40" r="35" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="7"/>
+              <circle class="ring-fill" cx="40" cy="40" r="35" fill="none" stroke="url(#g5)" stroke-width="7" stroke-linecap="round" stroke-dasharray="220" transform="rotate(-90 40 40)" data-val="143"/>
+              <text x="40" y="44" text-anchor="middle" class="skill-ring-pct" font-size="14" font-family="Share Tech Mono">65%</text>
+              <defs><linearGradient id="g5" x1="0%" y1="0%" x2="100%"><stop offset="0%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#ec4899"/></linearGradient></defs>
+            </svg>
+            <span class="skill-ring-label">🚀 Ops</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACHIEVEMENT BADGES -->
+      <div id="badgePanel" class="reveal">
+        <h3 class="font-display font-bold text-white text-[15px] mb-4 flex items-center gap-2">🏆 Achievements</h3>
+        <div class="flex flex-col gap-3">
+          <div class="badge-item" id="badge-visitor"><span class="badge-icon">👀</span><div><div class="badge-name">First Look</div><div class="badge-desc">Page visit kiya — welcome!</div></div><span class="badge-lock">🔒</span><span class="badge-check">✅</span></div>
+          <div class="badge-item" id="badge-follower1"><span class="badge-icon">❤️</span><div><div class="badge-name">Supporter</div><div class="badge-desc">Pehla account follow kiya</div></div><span class="badge-lock">🔒</span><span class="badge-check">✅</span></div>
+          <div class="badge-item" id="badge-follower2"><span class="badge-icon">🌟</span><div><div class="badge-name">Super Fan</div><div class="badge-desc">Dono accounts follow kar liye!</div></div><span class="badge-lock">🔒</span><span class="badge-check">✅</span></div>
+          <div class="badge-item" id="badge-explorer"><span class="badge-icon">🚀</span><div><div class="badge-name">Explorer</div><div class="badge-desc">Projects section unlock kiya</div></div><span class="badge-lock">🔒</span><span class="badge-check">✅</span></div>
+          <div class="badge-item" id="badge-night"><span class="badge-icon">🌙</span><div><div class="badge-name">Night Owl</div><div class="badge-desc">Dark mode use kiya</div></div><span class="badge-lock">🔒</span><span class="badge-check">✅</span></div>
+          <div class="badge-item" id="badge-music"><span class="badge-icon">🎵</span><div><div class="badge-name">Vibe Check</div><div class="badge-desc">Music player use kiya</div></div><span class="badge-lock">🔒</span><span class="badge-check">✅</span></div>
+          <div class="badge-item" id="badge-matrix"><span class="badge-icon">🟢</span><div><div class="badge-name">Hacker Mode</div><div class="badge-desc">Matrix Rain activate kiya!</div></div><span class="badge-lock">🔒</span><span class="badge-check">✅</span></div>
+          <div class="badge-item" id="badge-konami"><span class="badge-icon">🎮</span><div><div class="badge-name">Konami Master</div><div class="badge-desc">Secret cheat code dhoondha!</div></div><span class="badge-lock">🔒</span><span class="badge-check">✅</span></div>
+        </div>
+      </div>
+
+      <!-- CONTACT FORM -->
+      <div id="contactSection" class="reveal">
+        <h3 class="font-display font-bold text-white text-[15px] mb-4 flex items-center gap-2">📧 Contact Karein</h3>
+        <div class="flex flex-col gap-3">
+          <input type="text" id="contactName" class="contact-input" placeholder="Aapka naam..."/>
+          <input type="text" id="contactMsg"  class="contact-input" placeholder="Aapka message..."/>
+          <button id="contactSend" class="ripple-container w-full rounded-full bg-accent text-white font-display font-semibold text-[14px] py-3 transition-all hover:bg-accentDeep active:scale-[.98] relative overflow-hidden">Send Message 📨</button>
+        </div>
+      </div>
+
+      <!-- 3D FOOTER -->
+      <div id="footer3d" class="reveal">
+        <div class="text-center">
+          <div class="text-white font-display font-bold text-[15px] mb-2">🌐 Raj Dev — Social Hub</div>
+          <div class="text-white/60 text-[11px] font-mono mb-4">Built with ❤️ + JS + Tailwind</div>
+          <div class="flex justify-center gap-4 flex-wrap">
+            <button onclick="showQR('https://www.instagram.com/itz_dminem_official43','@itz_dminem')" class="text-[11px] text-white/70 hover:text-white transition-colors bg-white/10 rounded-full px-3 py-1.5 cursor-pointer">📱 QR: IG1</button>
+            <button onclick="showQR('https://www.instagram.com/_raj_dev_1','@_raj_dev_1')" class="text-[11px] text-white/70 hover:text-white transition-colors bg-white/10 rounded-full px-3 py-1.5 cursor-pointer">📱 QR: IG2</button>
+            <button onclick="showQR('https://t.me/raj_dev_01','Telegram')" class="text-[11px] text-white/70 hover:text-white transition-colors bg-white/10 rounded-full px-3 py-1.5 cursor-pointer">📱 QR: TG</button>
+          </div>
+          <p class="text-[10px] text-white/40 mt-4">Press <span class="font-mono bg-white/10 px-1.5 py-0.5 rounded">?</span> for keyboard shortcuts</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ============================================
+   CORE LOGIC (original — unchanged)
+   ============================================ */
+const IG_URL_1="https://www.instagram.com/itz_dminem_official43?igsh=MTZpNGMwOGwwMWl5dA==";
+const IG_URL_2="https://www.instagram.com/_raj_dev_1?igsh=cWh2cXBnNzRhamlr";
+const WAIT_SECONDS=30;
+const followBtn1=document.getElementById('followBtn1');
+const followBtn2=document.getElementById('followBtn2');
+const followStep2=document.getElementById('followStep2');
+const countdownWrap=document.getElementById('countdownWrap');
+const countdownNum=document.getElementById('countdownNum');
+const countdownRing=document.getElementById('countdownRing');
+const continueBtn=document.getElementById('continueBtn');
+const instructionText=document.getElementById('instructionText');
+const projectsSection=document.getElementById('projectsSection');
+const progressBar=document.getElementById('progressBar');
+let stepsCompleted=0;
+
+function morphToCompleted(btn){
+  btn.disabled=true;
+  btn.style.backgroundColor='#25D366';
+  btn.style.boxShadow='0 10px 15px -3px rgba(37,211,102,0.3)';
+  btn.style.color='white';
+  btn.querySelector('.btn-icon').innerHTML='<polyline points="20 6 9 17 4 12"></polyline>';
+  btn.querySelector('.btn-text').innerText='Completed ✓';
+  stepsCompleted++;
+  progressBar.style.width=(stepsCompleted*50)+'%';
+}
+
+followBtn1.addEventListener('click',()=>{
+  window.open(IG_URL_1,'_blank','noopener,noreferrer');
+  if(followBtn1.disabled)return;
+  morphToCompleted(followBtn1);
+  playSound('click');
+  unlockBadge('follower1');
+  showToast('✅ Step 1 done! Ab thoda wait karein...');
+  instructionText.innerHTML='<span class="wave-hand">👋</span> Great! Validation ka wait karein...';
+  instructionText.classList.add("text-accentDeep");
+  let secondsLeft=WAIT_SECONDS;
+  const totalDash=283;
+  countdownNum.textContent=secondsLeft;
+  countdownWrap.classList.remove('hidden');
+  const timer=setInterval(()=>{
+    secondsLeft--;
+    countdownNum.textContent=secondsLeft;
+    countdownRing.style.strokeDashoffset=totalDash-(totalDash*(secondsLeft/WAIT_SECONDS));
+    if(secondsLeft<=0){
+      clearInterval(timer);
+      countdownWrap.classList.add('hidden');
+      followStep2.classList.remove('hidden');
+      followStep2.classList.add('anim-pop');
+      showToast('🎉 Ab Step 2 complete karein!');
+      instructionText.innerHTML='Ab Step 2: Niche isko follow karein:';
+      instructionText.classList.remove("text-accentDeep");
+    }
+  },1000);
+});
+
+followBtn2.addEventListener('click',()=>{
+  window.open(IG_URL_2,'_blank','noopener,noreferrer');
+  if(followBtn2.disabled)return;
+  morphToCompleted(followBtn2);
+  playSound('click');
+  unlockBadge('follower2');
+  checkAllSteps();
+});
+
+function checkAllSteps(){
+  if(stepsCompleted===2){
+    instructionText.innerHTML='🎉 Dono steps done! Continue dabao!';
+    instructionText.style.color='#25D366';
+    activateContinue();
+    showToast('🚀 Continue press karein!');
+  }
+}
+
+function activateContinue(){
+  continueBtn.disabled=false;
+  continueBtn.setAttribute('aria-disabled','false');
+  continueBtn.classList.remove('is-disabled');
+  continueBtn.classList.add('is-active','btn-shimmer','anim-pop');
+}
+
+continueBtn.addEventListener('click',()=>{
+  if(continueBtn.disabled)return;
+  continueBtn.classList.remove('btn-shimmer');
+  playSound('success');
+  launchConfetti();
+  unlockBadge('explorer');
+  revealProjects();
+});
+
+function revealProjects(){
+  projectsSection.classList.add('is-open','mt-2');
+  setTimeout(()=>{
+    projectsSection.scrollIntoView({behavior:'smooth',block:'start'});
+    document.querySelectorAll('.project-item').forEach((item,i)=>{
+      setTimeout(()=>item.classList.add('show'),i*200);
+    });
+    spawnStars();
+    animateStatCounter();
+    animateSkillRings();
+  },300);
+}
+
+/* ============================================
+   TOAST
+   ============================================ */
+function showToast(msg){
+  const c=document.getElementById('toastContainer');
+  const t=document.createElement('div');
+  t.className='toast';t.textContent=msg;c.appendChild(t);
+  setTimeout(()=>{t.classList.add('out');t.addEventListener('animationend',()=>t.remove());},3200);
+}
+
+/* ============================================
+   CONFETTI
+   ============================================ */
+function launchConfetti(x,y){
+  const colors=['#0095F6','#a855f7','#ec4899','#25D366','#f59e0b','#ef4444','#fff'];
+  const btn=document.getElementById('continueBtn');
+  const rect=btn.getBoundingClientRect();
+  const ox=x||rect.left+rect.width/2, oy=y||rect.top+rect.height/2;
+  for(let i=0;i<60;i++){
+    const p=document.createElement('div');p.className='confetti-piece';
+    p.style.cssText='left:'+(ox+(Math.random()-.5)*320)+'px;top:'+oy+'px;background:'+colors[i%colors.length]+';--fall-dur:'+(1+Math.random()*.8)+'s;--fall-delay:'+Math.random()*.3+'s;border-radius:'+(Math.random()>.5?'50%':'2px');
+    document.body.appendChild(p);setTimeout(()=>p.remove(),2200);
+  }
+}
+
+/* ============================================
+   RIPPLE
+   ============================================ */
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('.ripple-container');
+  if(!btn)return;
+  const rect=btn.getBoundingClientRect();
+  const size=Math.max(rect.width,rect.height);
+  const r=document.createElement('span');r.className='ripple-wave';
+  r.style.cssText='width:'+size+'px;height:'+size+'px;left:'+(e.clientX-rect.left-size/2)+'px;top:'+(e.clientY-rect.top-size/2)+'px';
+  btn.appendChild(r);r.addEventListener('animationend',()=>r.remove());
+  // cursor click ring
+  const cr=document.createElement('div');cr.className='cursor-click-ring';
+  cr.style.cssText='left:'+e.clientX+'px;top:'+e.clientY+'px';
+  document.body.appendChild(cr);cr.addEventListener('animationend',()=>cr.remove());
+});
+
+/* ============================================
+   STAR BURST
+   ============================================ */
+function spawnStars(){
+  const stars=['⭐','🌟','✨','💫','🎉'];
+  for(let i=0;i<14;i++){
+    const s=document.createElement('div');s.className='star-burst';
+    s.textContent=stars[i%stars.length];
+    s.style.cssText='left:'+(40+Math.random()*20)+'vw;top:60vh;animation-delay:'+Math.random()*.8+'s;font-size:'+(14+Math.random()*14)+'px';
+    document.body.appendChild(s);setTimeout(()=>s.remove(),2000);
+  }
+}
+
+/* ============================================
+   STAT COUNTER
+   ============================================ */
+function animateStatCounter(){
+  const el=document.getElementById('statViews');
+  const target=Math.floor(Math.random()*500)+800;
+  let cur=0;const step=Math.ceil(target/40);
+  const iv=setInterval(()=>{cur=Math.min(cur+step,target);el.textContent=cur.toLocaleString();if(cur>=target)clearInterval(iv);},30);
+}
+
+/* ============================================
+   CIRCULAR SKILL RINGS ANIMATION
+   ============================================ */
+let ringsAnimated=false;
+function animateSkillRings(){
+  if(ringsAnimated)return;ringsAnimated=true;
+  document.querySelectorAll('.ring-fill').forEach((circle,i)=>{
+    setTimeout(()=>{
+      const val=parseInt(circle.dataset.val||0);
+      circle.style.strokeDashoffset=220-val;
+    },i*200);
+  });
+}
+const ringsObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)animateSkillRings();});
+},{threshold:.3});
+const skillEl=document.getElementById('skillsSection');
+if(skillEl)ringsObs.observe(skillEl);
+
+/* ============================================
+   TYPING BIO
+   ============================================ */
+(function typeBio(){
+  const full='Main Web Apps aur AI tools develop karta hoon. Ab tak maine fast movie websites aur natural AI assistants banaye hain. Future mein aise hi aur naye AI experiments aur tools aane wale hain.';
+  const el=document.getElementById('bioText');
+  const cur=document.getElementById('typingCursor');
+  let i=0;
+  function next(){
+    if(i<=full.length){el.textContent=full.slice(0,i);i++;setTimeout(next,28);}
+    else{setTimeout(()=>{cur.style.display='none';},3500);}
+  }
+  setTimeout(next,1400);
+})();
+
+/* ============================================
+   FLOATING EMOJI PARTICLES
+   ============================================ */
+(function(){
+  const emojis=['🚀','💻','⚡','🤖','🌟','✨','💡','🔥','🎯','🛸'];
+  const c=document.getElementById('emojiParticles');
+  for(let i=0;i<14;i++){
+    const el=document.createElement('div');el.className='emoji-particle';
+    el.textContent=emojis[i%emojis.length];
+    el.style.cssText='left:'+Math.random()*100+'%;--dur:'+(7+Math.random()*8)+'s;--delay:'+Math.random()*10+'s';
+    c.appendChild(el);
+  }
+})();
+
+/* ============================================
+   MOUSE SPARKLE TRAIL
+   ============================================ */
+let lastSparkle=0;
+document.addEventListener('mousemove',e=>{
+  const now=Date.now();if(now-lastSparkle<120)return;lastSparkle=now;
+  const el=document.createElement('div');el.className='sparkle-trail';
+  el.style.cssText='left:'+(e.clientX-8)+'px;top:'+(e.clientY-8)+'px;font-size:14px';
+  el.textContent=['✨','⚡','💫','🌟'][Math.floor(Math.random()*4)];
+  document.body.appendChild(el);setTimeout(()=>el.remove(),750);
+});
+
+/* ============================================
+   CUSTOM CURSOR
+   ============================================ */
+const dot=document.getElementById('cursorDot');
+const ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='54px';ring.style.height='54px';ring.style.opacity='.6';dot.style.width='12px';dot.style.height='12px';});
+  el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';ring.style.opacity='1';dot.style.width='8px';dot.style.height='8px';});
+});
+document.addEventListener('mouseleave',()=>{dot.style.opacity='0';ring.style.opacity='0';});
+document.addEventListener('mouseenter',()=>{dot.style.opacity='1';ring.style.opacity='1';});
+
+/* ============================================
+   SCROLL PROGRESS + SCROLL REVEAL
+   ============================================ */
+window.addEventListener('scroll',()=>{
+  const pct=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100;
+  document.getElementById('scrollProgress').style.width=Math.min(pct,100)+'%';
+},{passive:true});
+const revealObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+/* ============================================
+   LIVE CLOCK
+   ============================================ */
+function updateClock(){
+  const now=new Date();
+  const h=String(now.getHours()).padStart(2,'0');
+  const m=String(now.getMinutes()).padStart(2,'0');
+  const s=String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('clockTime').textContent=h+':'+m+':'+s;
+  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('clockDate').textContent=days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate();
+}
+updateClock();setInterval(updateClock,1000);
+
+/* ============================================
+   DARK MODE
+   ============================================ */
+let isDark=localStorage.getItem('rajDark')==='true';
+const darkBtn=document.getElementById('darkModeBtn');
+function applyDark(v){isDark=v;document.body.classList.toggle('dark-mode',v);darkBtn.textContent=v?'☀️':'🌙';localStorage.setItem('rajDark',v);}
+if(isDark)applyDark(true);
+darkBtn.addEventListener('click',()=>{applyDark(!isDark);unlockBadge('night');showToast(isDark?'🌙 Dark Mode ON':'☀️ Light Mode ON');playSound('click');});
+
+/* ============================================
+   GRADIENT TOGGLE
+   ============================================ */
+let isGrad=true;
+const gradBtn=document.getElementById('gradientBtn');
+gradBtn.addEventListener('click',()=>{
+  isGrad=!isGrad;document.body.classList.toggle('animated-bg',isGrad);
+  gradBtn.style.transform='scale(1.3) rotate(-20deg)';setTimeout(()=>gradBtn.style.transform='',300);
+  showToast(isGrad?'🌈 Gradient ON':'⬛ Static BG');playSound('click');
+});
+
+/* ============================================
+   MATRIX RAIN
+   ============================================ */
+const matrixCanvas=document.getElementById('matrixCanvas');
+const mCtx=matrixCanvas.getContext('2d');
+let matrixOn=false,matrixRaf;
+function startMatrix(){
+  matrixCanvas.style.display='block';
+  matrixCanvas.width=window.innerWidth;matrixCanvas.height=window.innerHeight;
+  const cols=Math.floor(matrixCanvas.width/16);
+  const drops=Array(cols).fill(1);
+  function drawMatrix(){
+    mCtx.fillStyle='rgba(0,0,0,0.05)';mCtx.fillRect(0,0,matrixCanvas.width,matrixCanvas.height);
+    mCtx.fillStyle='#0F0';mCtx.font='15px Share Tech Mono';
+    drops.forEach((y,i)=>{
+      const char=String.fromCharCode(0x30A0+Math.random()*96);
+      mCtx.fillText(char,i*16,y*16);
+      if(y*16>matrixCanvas.height&&Math.random()>.975)drops[i]=0;
+      drops[i]++;
+    });
+    matrixRaf=requestAnimationFrame(drawMatrix);
+  }
+  drawMatrix();
+}
+function stopMatrix(){cancelAnimationFrame(matrixRaf);mCtx.clearRect(0,0,matrixCanvas.width,matrixCanvas.height);matrixCanvas.style.display='none';}
+document.getElementById('matrixBtn').addEventListener('click',()=>{
+  matrixOn=!matrixOn;matrixOn?startMatrix():stopMatrix();
+  document.getElementById('matrixBtn').textContent=matrixOn?'❌':'🟢';
+  if(matrixOn){unlockBadge('matrix');showToast('🟢 Matrix Mode ON — Welcome, Neo!');}
+  else showToast('Matrix OFF');
+  playSound('click');
+});
+
+/* ============================================
+   SPOTLIGHT / TORCH EFFECT
+   ============================================ */
+const slCanvas=document.getElementById('spotlightCanvas');
+const slCtx=slCanvas.getContext('2d');
+let spotOn=false,spotX=0,spotY=0;
+function resizeSpot(){slCanvas.width=window.innerWidth;slCanvas.height=window.innerHeight;}
+resizeSpot();
+function drawSpot(){
+  slCtx.clearRect(0,0,slCanvas.width,slCanvas.height);
+  if(!spotOn)return;
+  const grad=slCtx.createRadialGradient(spotX,spotY,0,spotX,spotY,180);
+  grad.addColorStop(0,'rgba(255,255,200,0.18)');
+  grad.addColorStop(1,'rgba(0,0,0,0)');
+  slCtx.fillStyle=grad;slCtx.fillRect(0,0,slCanvas.width,slCanvas.height);
+  requestAnimationFrame(drawSpot);
+}
+document.addEventListener('mousemove',e=>{spotX=e.clientX;spotY=e.clientY;});
+document.getElementById('spotlightBtn').addEventListener('click',()=>{
+  spotOn=!spotOn;
+  document.getElementById('spotlightBtn').textContent=spotOn?'💡':'🔦';
+  if(spotOn){showToast('🔦 Spotlight ON');drawSpot();}else{slCtx.clearRect(0,0,slCanvas.width,slCanvas.height);}
+  playSound('click');
+});
+window.addEventListener('resize',resizeSpot);
+
+/* ============================================
+   INTERACTIVE PARTICLE NETWORK
+   ============================================ */
+const pCanvas=document.getElementById('particleCanvas');
+const pCtx=pCanvas.getContext('2d');
+let particles=[];let pmx=window.innerWidth/2,pmy=window.innerHeight/2;
+function resizePCanvas(){pCanvas.width=window.innerWidth;pCanvas.height=window.innerHeight;}
+resizePCanvas();
+class Particle{
+  constructor(){this.reset();}
+  reset(){this.x=Math.random()*pCanvas.width;this.y=Math.random()*pCanvas.height;this.vx=(Math.random()-.5)*.6;this.vy=(Math.random()-.5)*.6;this.r=Math.random()*2+1;this.opacity=Math.random()*.5+.2;}
+  update(){
+    this.x+=this.vx;this.y+=this.vy;
+    if(this.x<0||this.x>pCanvas.width)this.vx*=-1;
+    if(this.y<0||this.y>pCanvas.height)this.vy*=-1;
+    const dx=pmx-this.x,dy=pmy-this.y,dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<120){this.x+=dx*.008;this.y+=dy*.008;}
+  }
+  draw(){pCtx.beginPath();pCtx.arc(this.x,this.y,this.r,0,Math.PI*2);pCtx.fillStyle='rgba(255,255,255,'+this.opacity+')';pCtx.fill();}
+}
+for(let i=0;i<70;i++)particles.push(new Particle());
+document.addEventListener('mousemove',e=>{pmx=e.clientX;pmy=e.clientY;});
+function animParticles(){
+  pCtx.clearRect(0,0,pCanvas.width,pCanvas.height);
+  particles.forEach(p=>{p.update();p.draw();});
+  particles.forEach((a,i)=>{
+    particles.slice(i+1).forEach(b=>{
+      const dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){pCtx.beginPath();pCtx.moveTo(a.x,a.y);pCtx.lineTo(b.x,b.y);pCtx.strokeStyle='rgba(255,255,255,'+(1-d/120)*.15+')';pCtx.lineWidth=.5;pCtx.stroke();}
+    });
+  });
+  requestAnimationFrame(animParticles);
+}
+animParticles();
+window.addEventListener('resize',()=>{resizePCanvas();particles.forEach(p=>p.reset());});
+
+/* ============================================
+   3D TILT CARDS
+   ============================================ */
+document.querySelectorAll('.tilt-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const rect=card.getBoundingClientRect();
+    const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
+    const rx=(e.clientY-cy)/rect.height*14;
+    const ry=-(e.clientX-cx)/rect.width*14;
+    card.style.transform='perspective(800px) rotateX('+rx+'deg) rotateY('+ry+'deg) scale(1.02)';
+  });
+  card.addEventListener('mouseleave',()=>{card.style.transform='';});
+});
+
+/* ============================================
+   TEXT SCRAMBLE on Name Hover
+   ============================================ */
+const nameEl=document.getElementById('nameText');
+const chars='!@#$%^&*<>?/|{}[]ABCDEFabcdef0123456789';
+let scrambleIv;
+nameEl.addEventListener('mouseenter',()=>{
+  let iter=0;
+  const original='Raj';
+  scrambleIv=setInterval(()=>{
+    nameEl.textContent=original.split('').map((c,i)=>i<iter?c:chars[Math.floor(Math.random()*chars.length)]).join('');
+    if(iter>=original.length)clearInterval(scrambleIv);
+    iter+=.5;
+  },40);
+});
+nameEl.addEventListener('mouseleave',()=>{clearInterval(scrambleIv);nameEl.textContent='Raj';});
+
+/* ============================================
+   SOUND FX SYSTEM
+   ============================================ */
+let soundOn=localStorage.getItem('rajSound')!=='false';
+const soundBtn=document.getElementById('soundBtn');
+soundBtn.textContent=soundOn?'🔊':'🔇';
+soundBtn.addEventListener('click',()=>{soundOn=!soundOn;soundBtn.textContent=soundOn?'🔊':'🔇';localStorage.setItem('rajSound',soundOn);showToast(soundOn?'🔊 Sound ON':'🔇 Sound OFF');});
+function playSound(type){
+  if(!soundOn)return;
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const o=ctx.createOscillator();const g=ctx.createGain();
+    o.connect(g);g.connect(ctx.destination);
+    if(type==='click'){o.frequency.setValueAtTime(600,ctx.currentTime);o.frequency.exponentialRampToValueAtTime(300,ctx.currentTime+.08);g.gain.setValueAtTime(.15,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.1);}
+    else if(type==='success'){o.frequency.setValueAtTime(440,ctx.currentTime);o.frequency.setValueAtTime(550,ctx.currentTime+.1);o.frequency.setValueAtTime(660,ctx.currentTime+.2);g.gain.setValueAtTime(.18,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.35);}
+    o.start();o.stop(ctx.currentTime+.35);
+  }catch(e){}
+}
+
+/* ============================================
+   QUOTE GENERATOR
+   ============================================ */
+const quotes=[
+  {text:'Code karo jaise koi dekh nahi raha, deploy karo jaise sab dekh rahe hain.',author:'— Raj Dev'},
+  {text:'Every expert was once a beginner. Shuru karo, seekhte jao.',author:'— Unknown'},
+  {text:'Bugs ke bina coding? Woh toh sirf documentation hai.',author:'— Developer Life'},
+  {text:'Dream big, code bigger. Limitations sirf imagination mein hain.',author:'— Raj Dev'},
+  {text:'The best time to start was yesterday. The next best time is NOW.',author:'— Unknown'},
+  {text:'Ek problem solve karo. Ek project banao. Ek zindagi badlo.',author:'— Raj Dev'},
+];
+let lastQuote=-1;
+document.getElementById('quoteClose').addEventListener('click',()=>document.getElementById('quoteBox').classList.remove('show'));
+function showQuote(){
+  let idx;do{idx=Math.floor(Math.random()*quotes.length);}while(idx===lastQuote);
+  lastQuote=idx;
+  document.getElementById('quoteText').textContent='\u201C'+quotes[idx].text+'\u201D';
+  document.getElementById('quoteAuthor').textContent=quotes[idx].author;
+  document.getElementById('quoteBox').classList.add('show');
+  playSound('click');
+}
+
+/* ============================================
+   KEYBOARD SHORTCUTS
+   ============================================ */
+const konamiSeq=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let konamiIdx=0;
+document.addEventListener('keydown',e=>{
+  const k=e.key;
+  // Konami
+  if(k===konamiSeq[konamiIdx]){konamiIdx++;if(konamiIdx===konamiSeq.length){konamiIdx=0;triggerKonami();return;}}else{konamiIdx=0;}
+  // Shortcuts
+  const panels=['shortcutsPanel','quoteBox','qrPanel','konamiOverlay'];
+  const anyOpen=panels.some(id=>document.getElementById(id).classList.contains('show'));
+  if(e.key==='Escape'){panels.forEach(id=>document.getElementById(id).classList.remove('show'));return;}
+  if(anyOpen)return;
+  if(k==='d'||k==='D'){darkBtn.click();}
+  else if(k==='g'||k==='G'){gradBtn.click();}
+  else if(k==='m'||k==='M'){document.getElementById('matrixBtn').click();}
+  else if(k==='l'||k==='L'){document.getElementById('spotlightBtn').click();}
+  else if(k==='s'||k==='S'){soundBtn.click();}
+  else if(k==='q'||k==='Q'){showQuote();}
+  else if(k==='?'){document.getElementById('shortcutsPanel').classList.toggle('show');}
+});
+document.getElementById('shortcutsPanel').addEventListener('click',e=>{if(e.target===document.getElementById('shortcutsPanel'))document.getElementById('shortcutsPanel').classList.remove('show');});
+
+/* ============================================
+   KONAMI EASTER EGG
+   ============================================ */
+function triggerKonami(){
+  document.getElementById('konamiOverlay').classList.add('show');
+  unlockBadge('konami');playSound('success');launchConfetti(window.innerWidth/2,window.innerHeight/2);
+  showToast('🎮 Konami Code! Raj Dev ka secret!');
+}
+document.getElementById('konamiClose').addEventListener('click',()=>document.getElementById('konamiOverlay').classList.remove('show'));
+
+/* ============================================
+   ACHIEVEMENT BADGES
+   ============================================ */
+const unlockedBadges=new Set(JSON.parse(localStorage.getItem('rajBadges')||'[]'));
+function unlockBadge(id){
+  if(unlockedBadges.has(id))return;
+  unlockedBadges.add(id);localStorage.setItem('rajBadges',JSON.stringify([...unlockedBadges]));
+  const el=document.getElementById('badge-'+id);if(!el)return;
+  el.classList.add('unlocked');
+  showToast(el.querySelector('.badge-icon').textContent+' Badge: '+el.querySelector('.badge-name').textContent+'!');
+  for(let i=0;i<20;i++){
+    const p=document.createElement('div');p.className='confetti-piece';
+    const cols=['#0095F6','#a855f7','#ec4899','#25D366','#f59e0b'];
+    p.style.cssText='left:'+(25+Math.random()*50)+'vw;top:65vh;background:'+cols[i%cols.length]+';--fall-dur:'+(0.8+Math.random()*.6)+'s;--fall-delay:'+Math.random()*.2+'s;border-radius:'+(Math.random()>.5?'50%':'2px');
+    document.body.appendChild(p);setTimeout(()=>p.remove(),1500);
+  }
+}
+unlockedBadges.forEach(id=>{const el=document.getElementById('badge-'+id);if(el)el.classList.add('unlocked');});
+setTimeout(()=>unlockBadge('visitor'),2000);
+
+/* ============================================
+   MULTI-SONG MUSIC PLAYER — 12 Songs
+   ============================================ */
+const SONGS=[
+  {title:'Song 1 🎵',src:'music1.mp3'},
+  {title:'Song 2 🎶',src:'music2.mp3'},
+  {title:'Song 3 🎸',src:'music3.mp3'},
+  {title:'Song 4 🥁',src:'music4.mp3'},
+  {title:'Song 5 🎹',src:'music5.mp3'},
+  {title:'Song 6 🎼',src:'music6.mp3'},
+  {title:'Song 7 🎤',src:'music7.mp3'},
+  {title:'Song 8 🎧',src:'music8.mp3'},
+  {title:'Song 9 🪗',src:'music9.mp3'},
+  {title:'Song 10 🎺',src:'music10.mp3'},
+  {title:'Song 11 🪘',src:'music11.mp3'},
+  {title:'Song 12 🎻',src:'music12.mp3'},
+];
+let currentSong=0;
+const audio=new Audio(SONGS[currentSong].src);
+audio.volume=0.4;
+let isPlaying=false;
+const playBtn=document.getElementById('musicPlayBtn');
+const titleEl=document.getElementById('musicTitle');
+const waveEl=document.getElementById('musicWave');
+const collapBtn=document.getElementById('musicCollapseBtn');
+const player=document.getElementById('musicPlayer');
+const prevBtn=document.getElementById('musicPrevBtn');
+const nextBtn=document.getElementById('musicNextBtn');
+const trackNumEl=document.getElementById('musicTrackNum');
+
+function updateTrackUI(){
+  titleEl.textContent=SONGS[currentSong].title;
+  trackNumEl.textContent=(currentSong+1)+'/'+SONGS.length;
+}
+function setPlayState(v){
+  isPlaying=v;
+  playBtn.textContent=v?'⏸️':'▶️';
+  waveEl.classList.toggle('paused',!v);
+}
+function loadSong(idx,autoplay){
+  currentSong=((idx%SONGS.length)+SONGS.length)%SONGS.length;
+  audio.src=SONGS[currentSong].src;
+  updateTrackUI();
+  if(autoplay){
+    audio.play().then(()=>{setPlayState(true);showToast('🎵 '+SONGS[currentSong].title);})
+    .catch(()=>setPlayState(false));
+  } else {
+    setPlayState(false);
+  }
+}
+audio.addEventListener('ended',()=>loadSong(currentSong+1,true));
+playBtn.addEventListener('click',()=>{
+  if(isPlaying){audio.pause();setPlayState(false);}
+  else{
+    audio.play().then(()=>{setPlayState(true);unlockBadge('music');showToast('🎵 '+SONGS[currentSong].title+' chal rahi hai!');})
+    .catch(()=>showToast('▶️ Ek baar aur play dabao!'));
+  }
+});
+prevBtn.addEventListener('click',e=>{e.stopPropagation();loadSong(currentSong-1,isPlaying);});
+nextBtn.addEventListener('click',e=>{e.stopPropagation();loadSong(currentSong+1,isPlaying);});
+let collapsed=false;
+collapBtn.addEventListener('click',e=>{e.stopPropagation();collapsed=!collapsed;player.classList.toggle('collapsed',collapsed);collapBtn.textContent=collapsed?'🎵':'✕';});
+player.addEventListener('click',()=>{if(collapsed){collapsed=false;player.classList.remove('collapsed');collapBtn.textContent='✕';}});
+updateTrackUI();
+
+/* ============================================
+   FLYING ANIMATION — Rocket & Airplane
+   ============================================ */
+function launchFlyObj(){
+  const isRocket=Math.random()>0.5;
+  const el=document.createElement('div');
+  el.className='fly-obj';
+  el.textContent=isRocket?'🚀':'✈️';
+  const topPct=30+Math.random()*40;
+  el.style.cssText='top:'+topPct+'vh;left:-150px;font-size:'+(36+Math.random()*20)+'px;';
+  if(isRocket){
+    el.style.animation='flyDiagonal '+(3+Math.random()*2)+'s cubic-bezier(.4,0,.6,1) forwards';
+  } else {
+    el.style.animation='flyAcrossScreen '+(4+Math.random()*2)+'s cubic-bezier(.3,0,.7,1) forwards';
+    el.style.transform='scaleX(1)';
+  }
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),7000);
+}
+// Random interval between 6-14 seconds
+function scheduleFly(){
+  const delay=6000+Math.random()*8000;
+  setTimeout(()=>{launchFlyObj();scheduleFly();},delay);
+}
+setTimeout(scheduleFly,4000);
+
+/* ============================================
+   CONTACT FORM
+   ============================================ */
+document.getElementById('contactSend').addEventListener('click',()=>{
+  const name=document.getElementById('contactName').value.trim();
+  const msg=document.getElementById('contactMsg').value.trim();
+  if(!name||!msg){showToast('⚠️ Naam aur message dono likhein!');return;}
+  const mailto='mailto:raj@example.com?subject=Message from '+encodeURIComponent(name)+'&body='+encodeURIComponent(msg);
+  window.open(mailto);
+  showToast('📨 Message bheja gaya! Shukriya '+name+'!');
+  playSound('success');
+  document.getElementById('contactName').value='';
+  document.getElementById('contactMsg').value='';
+});
+
+/* ============================================
+   ONE-CLICK COPY (Ctrl+Click)
+   ============================================ */
+document.querySelectorAll('.copy-link').forEach(el=>{
+  el.addEventListener('click',e=>{
+    if(e.ctrlKey||e.metaKey){
+      e.preventDefault();
+      navigator.clipboard.writeText(el.dataset.url).then(()=>showToast('📋 Link copy ho gaya!'));
+      playSound('click');
+    }
+  });
+});
+
+/* ============================================
+   QR CODE GENERATOR (pure canvas)
+   ============================================ */
+function showQR(url,label){
+  document.getElementById('qrTitle').textContent='📱 QR: '+label;
+  const canvas=document.getElementById('qrImg');
+  const ctx=canvas.getContext('2d');
+  // Simple visual QR placeholder (real QR needs library)
+  ctx.fillStyle='white';ctx.fillRect(0,0,180,180);
+  ctx.fillStyle='#121212';
+  // Draw border
+  ctx.fillRect(10,10,50,50);ctx.fillStyle='white';ctx.fillRect(14,14,42,42);ctx.fillStyle='#121212';ctx.fillRect(18,18,34,34);ctx.fillStyle='white';ctx.fillRect(22,22,26,26);ctx.fillStyle='#121212';ctx.fillRect(26,26,18,18);
+  ctx.fillStyle='#121212';
+  ctx.fillRect(120,10,50,50);ctx.fillStyle='white';ctx.fillRect(124,14,42,42);ctx.fillStyle='#121212';ctx.fillRect(128,18,34,34);ctx.fillStyle='white';ctx.fillRect(132,22,26,26);ctx.fillStyle='#121212';ctx.fillRect(136,26,18,18);
+  ctx.fillStyle='#121212';
+  ctx.fillRect(10,120,50,50);ctx.fillStyle='white';ctx.fillRect(14,124,42,42);ctx.fillStyle='#121212';ctx.fillRect(18,128,34,34);ctx.fillStyle='white';ctx.fillRect(22,132,26,26);ctx.fillStyle='#121212';ctx.fillRect(26,136,18,18);
+  // Data modules
+  for(let i=0;i<9;i++)for(let j=0;j<9;j++){if(Math.random()>.5&&!(i<4&&j<4)&&!(i>4&&j<4)&&!(i<4&&j>4)){ctx.fillStyle='#121212';ctx.fillRect(10+i*18,10+j*18,14,14);}}
+  // URL text below
+  ctx.fillStyle='#6B7280';ctx.font='8px Inter';ctx.textAlign='center';ctx.fillText(url.replace('https://',''),90,175);
+  document.getElementById('qrPanel').classList.add('show');
+  showToast('📱 QR Code ready! Screenshot lo.');playSound('click');
+}
+document.getElementById('qrClose').addEventListener('click',()=>document.getElementById('qrPanel').classList.remove('show'));
+
+/* ============================================
+   GREET + PAGE LOADER HIDE
+   ============================================ */
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('pageLoader').classList.add('hide');
+    setTimeout(()=>document.getElementById('pageLoader').remove(),700);
+  },1800);
+  const h=new Date().getHours();
+  let g='🌙 Raat ka salam';
+  if(h>=5&&h<12)g='🌅 Good Morning!';
+  else if(h>=12&&h<17)g='☀️ Good Afternoon!';
+  else if(h>=17&&h<21)g='🌆 Good Evening!';
+  setTimeout(()=>showToast(g+' — Welcome to Raj\'s Hub 🎉'),2200);
+});
+</script>
+</body>
+</html>
